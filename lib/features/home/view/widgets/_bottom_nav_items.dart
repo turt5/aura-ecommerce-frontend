@@ -9,6 +9,7 @@ class NavItem extends StatelessWidget {
     required this.inactiveColor,
     required this.active,
     required this.onPressed,
+    this.notification,
   });
 
   final String asset;
@@ -17,13 +18,15 @@ class NavItem extends StatelessWidget {
   final Color inactiveColor;
   final bool active;
   final VoidCallback onPressed;
+  final bool? notification;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onPressed,
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         color: Colors.transparent,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -33,13 +36,19 @@ class NavItem extends StatelessWidget {
               scale: 1.9,
               color: active ? activeColor : inactiveColor,
             ),
-            Text(
-              label,
-              style: TextStyle(
-                  fontSize: 11,
-                  color: active ? activeColor : inactiveColor,
-                  fontWeight: active ? FontWeight.bold : FontWeight.normal),
-            )
+            !active
+                ? AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    color: Colors.transparent,
+                  )
+                : Text(
+                    label,
+                    style: TextStyle(
+                        fontSize: 11,
+                        color: active ? activeColor : inactiveColor,
+                        fontWeight:
+                            active ? FontWeight.bold : FontWeight.normal),
+                  )
           ],
         ),
       ),

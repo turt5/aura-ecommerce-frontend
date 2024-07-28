@@ -1,10 +1,14 @@
 import 'package:attira/features/home/controller/_home_model_provider.dart';
+import 'package:attira/features/home/model/_home_model_riverpod.dart';
+import 'package:attira/features/home/view/widgets/_drawer.dart';
+import 'package:attira/features/home/view/widgets/_home_body.dart';
 import 'package:attira/features/splash/view/widgets/_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../widgets/_bottom_nav_items.dart';
+import '../widgets/_custom_nav.dart';
 
 class HomePage extends ConsumerWidget {
   // Create a GlobalKey for the Scaffold
@@ -23,7 +27,7 @@ class HomePage extends ConsumerWidget {
       backgroundColor: theme.surface,
       appBar: AppBar(
         toolbarHeight: 70,
-        elevation: 1,
+        elevation: 2,
         shadowColor: theme.primary.withOpacity(0.2),
         title: AttiraLogo(
           fontSize: 18,
@@ -46,75 +50,48 @@ class HomePage extends ConsumerWidget {
             ),
           ),
           const SizedBox(width: 10),
-          Container(
-            margin: const EdgeInsets.only(right: 20),
-            child: const CircleAvatar(
-              radius: 12,
+          const CircleAvatar(
+            radius: 12,
+          ),
+          const SizedBox(
+            width: 15,
+          ),
+          InkWell(
+            onTap: () {},
+            focusColor: Colors.transparent,
+            splashColor: Colors.transparent,
+            child: Stack(
+              children: [
+                Container(
+                  width: 25,
+                  height: 25,
+                  margin: const EdgeInsets.only(right: 20),
+                  child: Image.asset(
+                    'assets/icon/cart.png',
+                    color: theme.secondary,
+                  ),
+                ),
+                Positioned(
+                    right: 18,
+                    top: 0,
+                    child: Container(
+                      height: 8,
+                      width: 8,
+                      decoration: const BoxDecoration(
+                          color: Colors.red, shape: BoxShape.circle),
+                    ))
+              ],
             ),
-          )
+          ),
         ],
       ),
-      drawer: const Drawer(),
+      drawer: AppDrawer(),
       body: SafeArea(
         child: Column(
           children: [
-            Expanded(
-                child: Container(
-              color: theme.primary,
-            )),
-            Container(
-              height: 70,
-              padding: const EdgeInsets.symmetric(horizontal: 50),
-              child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Expanded(
-                      child: NavItem(
-                        asset: "assets/icon/home.png",
-                        activeColor: theme.primary,
-                        inactiveColor: Colors.grey.shade600,
-                        label: "Home",
-                        active: homeRead.selected == 0,
-                        onPressed: () {
-                          homeWrite.selected = 0;
-                        },
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    Expanded(
-                      child: NavItem(
-                        asset: "assets/icon/menu.png",
-                        activeColor: theme.primary,
-                        inactiveColor: Colors.grey.shade600,
-                        label: "Categories",
-                        active: homeRead.selected == 1,
-                        onPressed: () {
-                          homeWrite.selected = 1;
-                        },
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    Expanded(
-                      child: NavItem(
-                        asset: "assets/icon/cart.png",
-                        activeColor: theme.primary,
-                        inactiveColor: Colors.grey.shade600,
-                        label: "Cart",
-                        active: homeRead.selected == 2,
-                        onPressed: () {
-                          homeWrite.selected = 2;
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            )
+            Expanded(child: HomeBody()),
+            CustomBottomNavigationBar(
+                theme: theme, homeRead: homeRead, homeWrite: homeWrite)
           ],
         ),
       ),
