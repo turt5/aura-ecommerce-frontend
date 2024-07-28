@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Future.delayed(const Duration(seconds: 2), () {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) =>  LoginPage()));
+          context, MaterialPageRoute(builder: (context) => LoginPage()));
     });
   }
 
@@ -37,7 +37,13 @@ class _SplashScreenState extends State<SplashScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: [AttiraLogo(theme: theme,fontSize: 30, iconSize: 24,)],
+              children: [
+                AttiraLogo(
+                  theme: theme,
+                  fontSize: 30,
+                  iconSize: 24,
+                )
+              ],
             ),
           ),
           Positioned(
@@ -46,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
             bottom: MediaQuery.of(context).size.height *
                 0.1, // Adjust the distance from the bottom
             child: const Text(
-              '© 2024 Attira. All rights reserved.',
+              '© 2024 AURA. All rights reserved.',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 13,
