@@ -1,5 +1,6 @@
 import 'package:attira/core/theme/_theme.dart';
 import 'package:attira/features/home/view/pages/_homepage.dart';
+import 'package:attira/features/splash/view/pages/_splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

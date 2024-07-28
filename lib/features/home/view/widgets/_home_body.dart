@@ -1,6 +1,10 @@
+import 'package:attira/features/home/view/widgets/_home_offers_section.dart';
+import 'package:attira/features/home/view/widgets/_home_shirt_section.dart';
 import 'package:flutter/material.dart';
 
 import '_home_body_search.dart';
+import '_home_categories_grid.dart';
+import '_home_tshirt_section.dart';
 
 class HomeBody extends StatelessWidget {
   const HomeBody({super.key});
@@ -11,6 +15,7 @@ class HomeBody extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: ListView(
+        scrollDirection: Axis.vertical,
         physics: const BouncingScrollPhysics(),
         children: [
           const SizedBox(
@@ -75,90 +80,24 @@ class HomeBody extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          Container(
-            height: 500,
-            color: theme.tertiary,
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'T-Shirt',
-                      style: TextStyle(
-                          color: theme.primary,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    TextButton(onPressed: () {}, child: Text('See All'))
-                  ],
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, // Number of columns in the grid
-                    crossAxisSpacing: 8.0, // Space between columns
-                    mainAxisSpacing: 8.0, // Space between rows
-                  ),
-                  itemCount: 4, // Total number of items
-                  itemBuilder: (context, index) {
-                    return Container(
-                      color: Colors.teal[(index + 1) * 100],
-                      child: Center(
-                        child: Text(
-                          'Item $index',
-                          style: TextStyle(color: Colors.white, fontSize: 18),
-                        ),
-                      ),
-                    );
-                  },
-                )
-              ],
-            ),
-          )
+
+          HomeOffersSection(theme: theme,imageUrl: "assets/picture/clothes.jpg",),
+
+          const SizedBox(
+            height: 20,
+          ),
+          
+          HomeTShirtSection(theme: theme),
+          const SizedBox(height: 20,),
+          
+          HomeShirtSection(theme: theme)
+          
         ],
       ),
     );
   }
 }
 
-class HomeCategoriesGrid extends StatelessWidget {
-  const HomeCategoriesGrid({
-    super.key,
-    required this.theme,
-    required this.label,
-    required this.asset,
-  });
 
-  final ColorScheme theme;
-  final String label;
-  final String asset;
 
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-        child: Container(
-      decoration: BoxDecoration(
-          color: theme.tertiary.withOpacity(.4),
-          borderRadius: BorderRadius.circular(10)),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            height: 25,
-            child: Image.asset(asset),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          Text(
-            label,
-            style: TextStyle(color: theme.onSurface, fontSize: 11),
-          ),
-        ],
-      ),
-    ));
-  }
-}
+
