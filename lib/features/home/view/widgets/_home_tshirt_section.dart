@@ -15,7 +15,7 @@ class HomeTShirtSection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextButton(
-                onPressed: (){},
+                onPressed: () {},
                 child: Text(
                   'T-Shirts',
                   style: TextStyle(
@@ -24,7 +24,6 @@ class HomeTShirtSection extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                 ),
               ),
-
             ],
           ),
           const SizedBox(
@@ -43,14 +42,43 @@ class HomeTShirtSection extends StatelessWidget {
               itemBuilder: (context, index) {
                 return Container(
                   decoration: BoxDecoration(
-                      color: theme.primary,
-                      borderRadius: BorderRadius.circular(15),
+                    // color: theme.primary,
+                    borderRadius: BorderRadius.circular(15),
                   ),
-                  child: Center(
-                    child: Text(
-                      'Item $index',
-                      style: TextStyle(color: theme.onPrimary, fontSize: 18),
-                    ),
+                  child: Column(
+                    children: [
+                      const Expanded(child: Placeholder()),
+                      Container(
+                        height: 60,
+                        decoration: BoxDecoration(
+                          color: theme.primary.withOpacity(.1),
+                          borderRadius: const  BorderRadius.only(
+                              bottomLeft: Radius.circular(15),
+                              bottomRight: Radius.circular(15)),
+                        ),
+                        padding:
+                            const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              "Men's Premium T-Shirt Hope",
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style:
+                                  TextStyle(color: theme.primary, fontSize: 10),
+                            ),
+                            Text(
+                              "BDT 599.",
+                              style: TextStyle(
+                                  color: theme.primary,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
                   ),
                 );
               },

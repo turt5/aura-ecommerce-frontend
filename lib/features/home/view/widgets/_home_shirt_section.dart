@@ -15,7 +15,7 @@ class HomeShirtSection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextButton(
-                onPressed: (){},
+                onPressed: () {},
                 child: Text(
                   'Shirts',
                   style: TextStyle(
@@ -24,7 +24,6 @@ class HomeShirtSection extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                 ),
               ),
-
             ],
           ),
           const SizedBox(
@@ -43,14 +42,44 @@ class HomeShirtSection extends StatelessWidget {
               itemBuilder: (context, index) {
                 return Container(
                   decoration: BoxDecoration(
-                    color: theme.primary,
+                    // color: theme.primary,
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  child: Center(
-                    child: Text(
-                      'Item $index',
-                      style: TextStyle(color: theme.onPrimary, fontSize: 18),
-                    ),
+                  child: Column(
+                    children: [
+                      Expanded(child: Placeholder()),
+                      Container(
+                        height: 90,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            color: theme.primary.withOpacity(.1),
+                            borderRadius: const BorderRadius.only(
+                                bottomLeft: Radius.circular(15),
+                                bottomRight: Radius.circular(15))),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              'Premium Casual Shirt - Bradford',
+                              maxLines: 2,
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
+                              style:
+                                  TextStyle(color: theme.primary, fontSize: 12),
+                            ),
+                            Text(
+                              'BDT 1650',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: theme.primary,
+                                  fontSize: 13),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 );
               },

@@ -1,5 +1,7 @@
 import 'package:attira/features/home/controller/_home_model_provider.dart';
 import 'package:attira/features/home/model/_home_model_riverpod.dart';
+import 'package:attira/features/home/view/widgets/_cart_body.dart';
+import 'package:attira/features/home/view/widgets/_categories_body.dart';
 import 'package:attira/features/home/view/widgets/_drawer.dart';
 import 'package:attira/features/home/view/widgets/_home_body.dart';
 import 'package:attira/features/splash/view/widgets/_logo.dart';
@@ -52,7 +54,8 @@ class HomePage extends ConsumerWidget {
           const SizedBox(width: 10),
           const CircleAvatar(
             radius: 12,
-            backgroundImage: NetworkImage('https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/John_Doe%2C_born_John_Nommensen_Duchac.jpg/1200px-John_Doe%2C_born_John_Nommensen_Duchac.jpg'),
+            backgroundImage: NetworkImage(
+                'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/John_Doe%2C_born_John_Nommensen_Duchac.jpg/1200px-John_Doe%2C_born_John_Nommensen_Duchac.jpg'),
           ),
           const SizedBox(
             width: 15,
@@ -90,7 +93,12 @@ class HomePage extends ConsumerWidget {
       body: SafeArea(
         child: Column(
           children: [
-            Expanded(child: HomeBody()),
+            Expanded(
+                child: homeRead.selected == 0
+                    ? HomeBody()
+                    : homeRead.selected == 1
+                        ? CategoriesBody()
+                        : CartBody()),
             CustomBottomNavigationBar(
                 theme: theme, homeRead: homeRead, homeWrite: homeWrite)
           ],
