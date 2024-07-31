@@ -8,12 +8,14 @@ class AttiraLogo extends StatelessWidget {
       required this.theme,
       required this.fontSize,
       required this.iconSize,
-      this.alignment});
+      this.alignment,
+      this.color});
 
   final ColorScheme theme;
   final double fontSize;
   final double iconSize;
   final bool? alignment;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,7 @@ class AttiraLogo extends StatelessWidget {
             style: GoogleFonts.righteous(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
-              color: theme.primary,
+              color: color ?? theme.primary,
             )),
       ],
     );

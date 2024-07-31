@@ -89,16 +89,16 @@ class HomePage extends ConsumerWidget {
           ),
         ],
       ),
-      drawer: AppDrawer(),
+      drawer: const AppDrawer(),
       body: SafeArea(
         child: Column(
           children: [
             Expanded(
                 child: homeRead.selected == 0
-                    ? HomeBody()
+                    ? const HomeBody()
                     : homeRead.selected == 1
-                        ? CategoriesBody()
-                        : CartBody()),
+                        ? const CategoriesBody()
+                        : const CartBody()),
             CustomBottomNavigationBar(
                 theme: theme, homeRead: homeRead, homeWrite: homeWrite)
           ],
