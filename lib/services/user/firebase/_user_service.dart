@@ -103,4 +103,14 @@ class FirebaseService {
     await FirebaseAuth.instance.signOut();
   }
 
+  Future<int> countUsers() async {
+    try {
+      QuerySnapshot userCollection = await _firebaseFirestore.collection('users').get();
+      return userCollection.docs.length;
+    } catch (e) {
+      print('Error counting users: $e');
+      return 0; // or handle the error as needed
+    }
+  }
+
 }

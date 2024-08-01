@@ -47,14 +47,16 @@ class AdminHomePage extends ConsumerWidget {
                 color: theme.primary,
                 child: Center(
                   child: Text(
-                    'Administrator Site',
+                    'Administrator Account',
                     style: TextStyle(color: theme.onPrimary),
                   ),
                 ),
               ),
               Expanded(
                   child: adminHomeRead.selected == 0
-                      ? AdminHomeBody()
+                      ? AdminHomeBody(
+                    theme: theme,
+                  )
                       : adminHomeRead.selected == 1
                           ? AdminAddProduct()
                           : AdminInbox()),
