@@ -2,6 +2,8 @@ import 'package:attira/features/splash/view/widgets/_logo.dart';
 import 'package:attira/services/user/firebase/_user_service.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../main.dart';
+
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
 
@@ -152,6 +154,7 @@ class AppDrawer extends StatelessWidget {
                   FirebaseService firebaseService = FirebaseService();
 
                   firebaseService.logoutUser();
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>MyApp()));
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: theme.error,
