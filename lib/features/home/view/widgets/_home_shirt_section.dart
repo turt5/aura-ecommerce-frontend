@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class HomeShirtSection extends StatelessWidget {
-  const HomeShirtSection({super.key, required this.theme});
+  const HomeShirtSection({super.key, required this.theme, required this.onTap});
 
   final ColorScheme theme;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -40,46 +41,50 @@ class HomeShirtSection extends StatelessWidget {
               ),
               itemCount: 2, // Total number of items
               itemBuilder: (context, index) {
-                return Container(
-                  decoration: BoxDecoration(
-                    // color: theme.primary,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Column(
-                    children: [
-                      Expanded(child: Placeholder()),
-                      Container(
-                        height: 90,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                            color: theme.primary.withOpacity(.1),
-                            borderRadius: const BorderRadius.only(
-                                bottomLeft: Radius.circular(15),
-                                bottomRight: Radius.circular(15))),
-                        padding:
-                            EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text(
-                              'Premium Casual Shirt - Bradford',
-                              maxLines: 2,
-                              textAlign: TextAlign.center,
-                              overflow: TextOverflow.ellipsis,
-                              style:
-                                  TextStyle(color: theme.primary, fontSize: 12),
-                            ),
-                            Text(
-                              'BDT 1650',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: theme.primary,
-                                  fontSize: 13),
-                            )
-                          ],
+                return InkWell(
+                  onTap: onTap,
+                  borderRadius: BorderRadius.circular(15),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      // color: theme.primary,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Column(
+                      children: [
+                        Expanded(child: Placeholder()),
+                        Container(
+                          height: 90,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              color: theme.primary.withOpacity(.1),
+                              borderRadius: const BorderRadius.only(
+                                  bottomLeft: Radius.circular(15),
+                                  bottomRight: Radius.circular(15))),
+                          padding:
+                              EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text(
+                                'Premium Casual Shirt - Bradford',
+                                maxLines: 2,
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.ellipsis,
+                                style:
+                                    TextStyle(color: theme.primary, fontSize: 12),
+                              ),
+                              Text(
+                                'BDT 1650',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: theme.primary,
+                                    fontSize: 13),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               },

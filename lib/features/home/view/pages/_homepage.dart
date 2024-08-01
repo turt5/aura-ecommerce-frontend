@@ -16,7 +16,6 @@ import '../widgets/_bottom_nav_items.dart';
 import '../widgets/_custom_nav.dart';
 
 class HomePage extends ConsumerWidget {
-  // Create a GlobalKey for the Scaffold
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   HomePage({super.key});

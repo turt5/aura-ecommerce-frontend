@@ -168,6 +168,7 @@ class LoginPage extends ConsumerWidget {
     if (userData != null) {
       bool? error = userData?.containsKey('error');
       if (error!) {
+        closeCustomDialog();
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Login, failed ${userData!['error']}')));
       } else {

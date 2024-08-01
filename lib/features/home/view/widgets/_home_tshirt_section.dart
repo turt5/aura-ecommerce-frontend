@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class HomeTShirtSection extends StatelessWidget {
-  const HomeTShirtSection({super.key, required this.theme});
+  const HomeTShirtSection({super.key, required this.theme, required this.onTap});
 
   final ColorScheme theme;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -40,45 +41,49 @@ class HomeTShirtSection extends StatelessWidget {
               ),
               itemCount: 3, // Total number of items
               itemBuilder: (context, index) {
-                return Container(
-                  decoration: BoxDecoration(
-                    // color: theme.primary,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Column(
-                    children: [
-                      const Expanded(child: Placeholder()),
-                      Container(
-                        height: 60,
-                        decoration: BoxDecoration(
-                          color: theme.primary.withOpacity(.1),
-                          borderRadius: const  BorderRadius.only(
-                              bottomLeft: Radius.circular(15),
-                              bottomRight: Radius.circular(15)),
-                        ),
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text(
-                              "Men's Premium T-Shirt Hope",
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style:
-                                  TextStyle(color: theme.primary, fontSize: 10),
-                            ),
-                            Text(
-                              "BDT 599.",
-                              style: TextStyle(
-                                  color: theme.primary,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          ],
-                        ),
-                      )
-                    ],
+                return InkWell(
+                  onTap: onTap,
+                  borderRadius: BorderRadius.circular(15),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      // color: theme.primary,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Column(
+                      children: [
+                        const Expanded(child: Placeholder()),
+                        Container(
+                          height: 60,
+                          decoration: BoxDecoration(
+                            color: theme.primary.withOpacity(.1),
+                            borderRadius: const  BorderRadius.only(
+                                bottomLeft: Radius.circular(15),
+                                bottomRight: Radius.circular(15)),
+                          ),
+                          padding:
+                              const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text(
+                                "Men's Premium T-Shirt Hope",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style:
+                                    TextStyle(color: theme.primary, fontSize: 10),
+                              ),
+                              Text(
+                                "BDT 599.",
+                                style: TextStyle(
+                                    color: theme.primary,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 );
               },

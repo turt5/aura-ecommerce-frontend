@@ -13,7 +13,6 @@ import 'features/home/view/pages/_admin_home.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
   runApp(const ProviderScope(child: MyApp()));
 }
 

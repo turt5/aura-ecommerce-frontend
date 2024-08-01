@@ -15,25 +15,33 @@ class HomeCategoriesGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        child: Container(
-          decoration: BoxDecoration(
-              color: theme.tertiary.withOpacity(.4),
-              borderRadius: BorderRadius.circular(10)),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 25,
-                child: Image.asset(asset),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Text(
-                label,
-                style: TextStyle(color: theme.onSurface, fontSize: 11),
-              ),
-            ],
+        child: InkWell(
+          onTap: (){
+
+          },
+
+          borderRadius: BorderRadius.circular(10),
+
+          child: Container(
+            decoration: BoxDecoration(
+                color: theme.tertiary.withOpacity(.4),
+                borderRadius: BorderRadius.circular(10)),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 25,
+                  child: Image.asset(asset),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  label,
+                  style: TextStyle(color: theme.onSurface, fontSize: 11),
+                ),
+              ],
+            ),
           ),
         ));
   }

@@ -87,10 +87,10 @@ class HomeBody extends StatelessWidget {
             height: 20,
           ),
           
-          HomeTShirtSection(theme: theme),
+          HomeTShirtSection(theme: theme, onTap:(){}),
           const SizedBox(height: 20,),
           
-          HomeShirtSection(theme: theme)
+          HomeShirtSection(theme: theme, onTap: (){},)
           
         ],
       ),
