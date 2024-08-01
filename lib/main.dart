@@ -44,18 +44,18 @@ class MyApp extends StatelessWidget {
           } else if (prefsSnapshot.hasData) {
             SharedPreferences prefs = prefsSnapshot.data!;
 
-            // Check if 'userId' and 'role' keys are present
+
             bool isLoggedIn = prefs.containsKey('userId') && prefs.containsKey('role') ;
 
             if (isLoggedIn) {
-              // User is logged in, check the role and navigate accordingly
+
               String role = prefs.getString('role') ?? '';
 
               return StreamBuilder<User?>(
                 stream: FirebaseAuth.instance.authStateChanges(),
                 builder: (context, authSnapshot) {
                   if (authSnapshot.connectionState == ConnectionState.waiting) {
-                    // Show a loading indicator while waiting for auth state
+
                     return Scaffold(
                       backgroundColor: Theme.of(context).colorScheme.surface,
                       body: SafeArea(
@@ -70,14 +70,13 @@ class MyApp extends StatelessWidget {
                   } else if (authSnapshot.hasData) {
                     // User is authenticated
                     if (role == 'admin') {
-                      return AdminHomePage(); // Replace with your admin page
+                      return AdminHomePage();
                     } else if (role == 'user') {
-                      return HomePage(); // Replace with your user page
+                      return HomePage();
                     } else {
                       return SplashScreen();
                     }
                   } else {
-                    // Auth state is not available
                     return SplashScreen();
                   }
                 },
