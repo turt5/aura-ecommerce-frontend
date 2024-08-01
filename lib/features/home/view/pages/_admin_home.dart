@@ -22,7 +22,10 @@ class AdminHomePage extends ConsumerWidget {
         future: read.getUserData(), // Call the Future method
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator()); // Loading indicator
+            return Center(child: CupertinoActivityIndicator(
+              radius: 12,
+              color: theme.primary,
+            )); // Loading indicator
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}')); // Error handling
           } else if (snapshot.hasData) {

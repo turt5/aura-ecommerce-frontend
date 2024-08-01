@@ -88,7 +88,7 @@ class RegisterPage extends ConsumerWidget {
                 String phone = phoneController.text;
                 String email = emailController.text;
                 String password = passwordController.text;
-                String role = 'admin';
+                String role = 'user';
 
                 if (image != null &&
                     name.isNotEmpty &&
