@@ -10,4 +10,13 @@ class AccountModel extends ChangeNotifier{
     _imageFile = imageFile;
     notifyListeners();
   }
+
+  bool _isLoading = false;
+
+  bool get isLoading => _isLoading;
+
+  void setLoading(bool loading){
+    _isLoading = loading;
+    notifyListeners();
+  }
 }

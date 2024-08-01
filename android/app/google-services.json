@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "541837952155",
+    "project_id": "aura-ecommerce-454be",
+    "storage_bucket": "aura-ecommerce-454be.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:541837952155:android:a6f7dacfadc1eb66edf23e",
+        "android_client_info": {
+          "package_name": "com.example.attira"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1jDrrv4_kuCEcwfVYepqAgSUa_LXo6O0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

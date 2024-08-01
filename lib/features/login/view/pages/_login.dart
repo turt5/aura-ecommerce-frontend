@@ -1,18 +1,24 @@
 import 'dart:math';
 
+import 'package:attira/features/home/view/pages/_admin_home.dart';
+import 'package:attira/features/home/view/pages/_homepage.dart';
+import 'package:attira/features/register/view/widgets/_customDialog.dart';
 import 'package:attira/features/splash/view/widgets/_logo.dart';
 import 'package:attira/features/login/view/widgets/_password_field.dart';
+import 'package:attira/services/user/firebase/_user_service.dart';
+import 'package:attira/services/user/provider/_firebase_user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../register/view/pages/_register.dart';
 import '../widgets/_email_field.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends ConsumerWidget {
   LoginPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context).colorScheme;
 
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
@@ -70,7 +76,15 @@ class LoginPage extends StatelessWidget {
                   width: MediaQuery.of(context).size.width * 0.85,
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      String email = emailController.text;
+                      String password = passController.text;
+
+                      await _loginUser(context, ref, email, password);
+
+                      // Navigator.push(context,
+                      //     MaterialPageRoute(builder: (context) => HomePage()));
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: theme.primary,
                       foregroundColor: theme.onPrimary,
@@ -143,4 +157,32 @@ class LoginPage extends StatelessWidget {
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
+
+  Future<void> _loginUser(BuildContext context, WidgetRef ref, String email,
+      String password) async {
+    showCustomDialog(context);
+    final FirebaseService firebaseService = ref.read(firebaseServiceProvider);
+    Map<String, dynamic>? userData =
+        await firebaseService.loginUser(email, password);
+
+    if (userData != null) {
+      bool? error = userData?.containsKey('error');
+      if (error!) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Login, failed ${userData!['error']}')));
+      } else {
+        closeCustomDialog();
+        bool isAdmin = userData!['role'] == "admin";
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => isAdmin ? AdminHomePage() : HomePage()));
+      }
+    } else {
+      bool? error = userData?.containsKey('error');
+
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Login failed!')));
+    }
+  }
 }
