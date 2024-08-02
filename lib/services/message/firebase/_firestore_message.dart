@@ -38,16 +38,93 @@ class FirestoreService {
 
         final lastMessageDoc = lastMessageQuery.docs.isNotEmpty ? lastMessageQuery.docs.first.data() : null;
 
+        // Fetch unread messages count
+        final unreadCountQuery = await _db.collection('messages')
+            .where('userId', isEqualTo: userId)
+            .where('isRead', isEqualTo: false)
+            .get();
+
         return {
           'userId': userId,
           'name': userData?['name'] ?? 'Unknown',
           'imageUrl': userData?['imageUrl'],
           'lastMessage': lastMessageDoc?['content'] ?? '',
           'lastMessageTime': lastMessageDoc?['sent'] ?? '',
+          'unreadCount': unreadCountQuery.docs.length, // Count of unread messages
         };
       }).toList());
 
       return users;
     });
+  }
+
+
+// Function to update 'isRead' status for all messages in a selected conversation
+  Future<void> markMessagesAsRead(String userId, String receiverId) async {
+    try {
+      // Get the collection reference for messages
+      final messagesRef = _db.collection('messages');
+
+      // Query to find messages between the specified user and receiver
+      final query = messagesRef
+          .where('userId', isEqualTo: userId)
+          .where('receiverId', isEqualTo: receiverId)
+          .where('isRead', isEqualTo: false);
+
+      // Fetch messages that match the query
+      final querySnapshot = await query.get();
+
+      // Create a batch to update the messages
+      final batch = _db.batch();
+
+      // Iterate through the documents and add update operations to the batch
+      for (final doc in querySnapshot.docs) {
+        batch.update(doc.reference, {'isRead': true});
+      }
+
+      // Commit the batch update
+      await batch.commit();
+    } catch (e) {
+      // Handle errors
+      print('Error updating messages: $e');
+    }
+  }
+
+  Future<int> countDistinctUsers(String userId) async {
+    try {
+      final snapshot = await _db.collection('messages')
+          .where('receiverId', isEqualTo: userId)
+          .get();
+
+      // Extract unique sender userIds
+      final userIds = snapshot.docs
+          .map((doc) => doc.data()['userId'] as String)
+          .toSet();
+
+      return userIds.length;
+    } catch (e) {
+      print('Error counting distinct users: $e');
+      return 0;
+    }
+  }
+
+  // Count unread conversations for a user
+  Future<int> countUnreadConversations(String userId) async {
+    try {
+      final snapshot = await _db.collection('messages')
+          .where('receiverId', isEqualTo: userId)
+          .where('isRead', isEqualTo: false)
+          .get();
+
+      // Extract distinct userIds with unread messages
+      final unreadUserIds = snapshot.docs
+          .map((doc) => doc.data()['userId'] as String)
+          .toSet();
+
+      return unreadUserIds.length;
+    } catch (e) {
+      print('Error counting unread conversations: $e');
+      return 0;
+    }
   }
 }

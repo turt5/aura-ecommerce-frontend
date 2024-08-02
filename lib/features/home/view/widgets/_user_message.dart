@@ -151,6 +151,7 @@ class UserMessageView extends ConsumerWidget {
                     'sent': DateTime.now().toString(),
                     'userId': userId, // Add user ID
                     'receiverId': receiverId, // Add receiver ID
+                    'isRead': false
                   });
                 }
               },
@@ -164,6 +165,7 @@ class UserMessageView extends ConsumerWidget {
                     'sent': DateTime.now().toString(),
                     'userId': userId, // Add user ID
                     'receiverId': receiverId, // Add receiver ID
+                    'isRead': false
                   });
                   _messageController.clear();
                   _selectedImage = null;

@@ -1,34 +1,45 @@
 import 'package:attira/features/home/view/widgets/_nav_profile_item.dart';
 import 'package:flutter/material.dart';
-
+import '../../../../services/message/firebase/_firestore_message.dart';
 import '../../model/_home_model_riverpod.dart';
 import '_bottom_nav_items.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
-  const CustomBottomNavigationBar({
+  CustomBottomNavigationBar({
     super.key,
     required this.theme,
     required this.homeRead,
     required this.homeWrite,
   });
 
+  final FirestoreService firestoreService = FirestoreService();
   final ColorScheme theme;
   final HomeModelRiverpod homeRead;
   final HomeModelRiverpod homeWrite;
+
+  Future<Map<String, dynamic>> _getUserData() async {
+    return await homeRead.getUserData();
+  }
+
+  Future<List<int>> _getCounts(String userId) async {
+    return await Future.wait([
+      firestoreService.countDistinctUsers(userId),
+      firestoreService.countUnreadConversations(userId),
+    ]);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 70,
-
       decoration: BoxDecoration(
         color: theme.surface,
         border: Border(
           top: BorderSide(
             color: theme.primary.withOpacity(.05),
-            width: 2
-          )
-        )
+            width: 2,
+          ),
+        ),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Center(
@@ -47,7 +58,6 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 },
               ),
             ),
-
             Expanded(
               child: NavItem(
                 iconData: Icons.category_outlined,
@@ -61,7 +71,6 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 },
               ),
             ),
-
             Expanded(
               child: NavItem(
                 asset: "assets/icon/bag.png",
@@ -72,38 +81,111 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 onPressed: () {
                   homeWrite.selected = 2;
                 },
-                notification: true,
-              ),
-            ),Expanded(
-              child: NavItem(
-                asset: "assets/icon/message.png",
-                activeColor: theme.primary,
-                inactiveColor: Colors.grey.shade600,
-                label: "Inbox",
-                active: homeRead.selected == 3,
-                onPressed: () {
-                  homeWrite.selected = 3;
-                },
-                notification: true,
+                notification: false,
               ),
             ),
+            FutureBuilder<Map<String, dynamic>>(
+              future: _getUserData(),
+              builder: (context, userSnapshot) {
+                if (userSnapshot.connectionState == ConnectionState.waiting) {
+                  return Expanded(
+                    child: NavItem(
+                      asset: "assets/icon/message.png",
+                      activeColor: theme.primary,
+                      inactiveColor: Colors.grey.shade600,
+                      label: "Inbox",
+                      active: homeRead.selected == 3,
+                      onPressed: () {
+                        homeWrite.selected = 3;
+                      },
+                      notification: false,
+                    ),
+                  );
+                }
 
+                if (userSnapshot.hasError || !userSnapshot.hasData) {
+                  return Expanded(
+                    child: NavItem(
+                      asset: "assets/icon/message.png",
+                      activeColor: theme.primary,
+                      inactiveColor: Colors.grey.shade600,
+                      label: "Inbox",
+                      active: homeRead.selected == 3,
+                      onPressed: () {
+                        homeWrite.selected = 3;
+                      },
+                      notification: false,
+                    ),
+                  );
+                }
+
+                final userId = userSnapshot.data!['userId'] as String;
+
+                return FutureBuilder<List<int>>(
+                  future: _getCounts(userId),
+                  builder: (context, countSnapshot) {
+                    if (countSnapshot.connectionState == ConnectionState.waiting) {
+                      return Expanded(
+                        child: NavItem(
+                          asset: "assets/icon/message.png",
+                          activeColor: theme.primary,
+                          inactiveColor: Colors.grey.shade600,
+                          label: "Inbox",
+                          active: homeRead.selected == 3,
+                          onPressed: () {
+                            homeWrite.selected = 3;
+                          },
+                          notification: false,
+                        ),
+                      );
+                    }
+
+                    if (countSnapshot.hasError || !countSnapshot.hasData) {
+                      return Expanded(
+                        child: NavItem(
+                          asset: "assets/icon/message.png",
+                          activeColor: theme.primary,
+                          inactiveColor: Colors.grey.shade600,
+                          label: "Inbox",
+                          active: homeRead.selected == 3,
+                          onPressed: () {
+                            homeWrite.selected = 3;
+                          },
+                          notification: false,
+                        ),
+                      );
+                    }
+
+                    final counts = countSnapshot.data!;
+                    final distinctUsersCount = counts[0];
+                    final unreadConversationsCount = counts[1];
+
+                    return Expanded(
+                      child: NavItem(
+                        asset: "assets/icon/message.png",
+                        activeColor: theme.primary,
+                        inactiveColor: Colors.grey.shade600,
+                        label: "Inbox",
+                        active: homeRead.selected == 3,
+                        onPressed: () {
+                          homeWrite.selected = 3;
+                        },
+                        notification: unreadConversationsCount > 0,
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
             Expanded(
               child: FutureBuilder<Map<String, dynamic>>(
-                future: homeRead.getUserData(),
+                future: _getUserData(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    // Show a loading indicator while waiting for data
                     return Center(child: CircularProgressIndicator());
                   }
 
-                  if (snapshot.hasError) {
-                    // Handle any errors
-                    return Center(child: Text('Error: ${snapshot.error}'));
-                  }
-
-                  if (!snapshot.hasData || snapshot.data == null) {
-                    // Handle the case where there is no data
+                  if (snapshot.hasError || !snapshot.hasData) {
                     return NavItem(
                       asset: "assets/icon/bag.png",
                       activeColor: theme.primary,
@@ -114,11 +196,11 @@ class CustomBottomNavigationBar extends StatelessWidget {
                       onPressed: () {
                         homeWrite.selected = 4;
                       },
-                      notification: true,
+                      notification: false,
                     );
                   }
 
-                  final user = snapshot.data!; // Safe to use `!` now
+                  final user = snapshot.data!;
 
                   return NavProfileItem(
                     url: user['imageUrl'],
@@ -129,12 +211,11 @@ class CustomBottomNavigationBar extends StatelessWidget {
                     onPressed: () {
                       homeWrite.selected = 4;
                     },
+                    notification: false,
                   );
                 },
               ),
-            )
-
-
+            ),
           ],
         ),
       ),
