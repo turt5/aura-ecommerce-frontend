@@ -39,7 +39,6 @@ class NavProfileItem extends StatelessWidget {
               width: 28,
               height: 28,
               padding: EdgeInsets.all(2),
-              clipBehavior: Clip.hardEdge,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
@@ -47,21 +46,26 @@ class NavProfileItem extends StatelessWidget {
                   color: active?activeColor:inactiveColor
                 )
               ),
-              child: CachedNetworkImage(
-                imageUrl: url,
-                fit: BoxFit.cover,
-                progressIndicatorBuilder: (context, _, d) {
-                  return Center(
-                    child: CupertinoActivityIndicator(
-                      radius: 8,
-                    ),
-                  );
-                },
-                errorWidget: (context, _, d) {
-                  return Center(
-                    child: Icon(iconData),
-                  );
-                },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: CachedNetworkImage(
+                  imageUrl: url,
+                  fit: BoxFit.cover,
+                  width: 28,
+                  height: 28,
+                  progressIndicatorBuilder: (context, _, d) {
+                    return Center(
+                      child: CupertinoActivityIndicator(
+                        radius: 8,
+                      ),
+                    );
+                  },
+                  errorWidget: (context, _, d) {
+                    return Center(
+                      child: Icon(iconData),
+                    );
+                  },
+                ),
               ),
             ),
             !active

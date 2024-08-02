@@ -1,6 +1,7 @@
 import 'package:attira/core/theme/_theme.dart';
 import 'package:attira/features/home/view/pages/_homepage.dart';
 import 'package:attira/features/splash/view/pages/_splash.dart';
+import 'package:attira/services/message/provider/_firestore_message_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,7 +14,15 @@ import 'features/home/view/pages/_admin_home.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const ProviderScope(child: MyApp()));
+  final sharedPreferences = await SharedPreferences.getInstance();
+  runApp(
+    ProviderScope(
+      overrides: [
+        sharedPreferencesProvider.overrideWithValue(sharedPreferences),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
