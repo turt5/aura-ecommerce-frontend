@@ -52,7 +52,7 @@ class AdminCustomBottomNavigationBar extends StatelessWidget {
                 asset: "assets/icon/add.png",
                 activeColor: theme.primary,
                 inactiveColor: Colors.grey.shade600,
-                label: "Add Item",
+                label: "Add Items",
                 active: homeRead.selected == 1,
                 onPressed: () {
                   homeWrite.selected = 1;
@@ -62,15 +62,28 @@ class AdminCustomBottomNavigationBar extends StatelessWidget {
             // const SizedBox(
             //   width: 15,
             // ),
+
+            Expanded(
+              child: NavItem(
+                asset: "assets/icon/parcel.png",
+                activeColor: theme.primary,
+                inactiveColor: Colors.grey.shade600,
+                label: "Orders",
+                active: homeRead.selected == 2,
+                onPressed: () {
+                  homeWrite.selected = 2;
+                },
+              ),
+            ),
             Expanded(
               child: NavItem(
                 asset: "assets/icon/message.png",
                 activeColor: theme.primary,
                 inactiveColor: Colors.grey.shade600,
                 label: "Inbox",
-                active: homeRead.selected == 2,
+                active: homeRead.selected == 3,
                 onPressed: () {
-                  homeWrite.selected = 2;
+                  homeWrite.selected = 3;
                 },
                 notification: true,
               ),

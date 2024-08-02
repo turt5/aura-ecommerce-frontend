@@ -9,7 +9,7 @@ class NavItem extends StatelessWidget {
     required this.inactiveColor,
     required this.active,
     required this.onPressed,
-    this.notification,
+    this.notification, this.iconData,
   });
 
   final String asset;
@@ -19,6 +19,7 @@ class NavItem extends StatelessWidget {
   final bool active;
   final VoidCallback onPressed;
   final bool? notification;
+  final IconData? iconData;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class NavItem extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
+            iconData!=null? Icon(iconData,color: active?activeColor:inactiveColor,)  : Image.asset(
               asset,
               scale: 1.9,
               color: active ? activeColor : inactiveColor,
@@ -43,6 +44,8 @@ class NavItem extends StatelessWidget {
                   )
                 : Text(
                     label,
+                    maxLines: 1,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 11,
                         color: active ? activeColor : inactiveColor,

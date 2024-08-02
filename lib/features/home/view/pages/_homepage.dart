@@ -3,6 +3,7 @@ import 'package:attira/features/home/model/_home_model_riverpod.dart';
 import 'package:attira/features/home/view/widgets/_cart_body.dart';
 import 'package:attira/features/home/view/widgets/_categories_body.dart';
 import 'package:attira/features/home/view/widgets/_drawer.dart';
+import 'package:attira/features/home/view/widgets/_home_appbar.dart';
 import 'package:attira/features/home/view/widgets/_home_body.dart';
 import 'package:attira/features/splash/view/widgets/_logo.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -43,69 +44,7 @@ class HomePage extends ConsumerWidget {
           return Scaffold(
             key: _scaffoldKey, // Set the key here
             backgroundColor: theme.surface,
-            appBar: AppBar(
-              toolbarHeight: 70,
-              elevation: 2,
-              shadowColor: theme.primary.withOpacity(0.2),
-              title: AttiraLogo(
-                fontSize: 18,
-                iconSize: 20,
-                theme: theme,
-                alignment: true,
-              ),
-              centerTitle: false,
-              actions: [
-                SizedBox(
-                  width: 50,
-                  child: Text(
-                    user['name'],
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.poppins(
-                      color: theme.primary,
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                CircleAvatar(
-                  radius: 16,
-                  backgroundImage: NetworkImage(user['imageUrl'] ?? ''),
-                ),
-                const SizedBox(
-                  width: 15,
-                ),
-                InkWell(
-                  onTap: () {
-                    print(user);
-                  },
-                  focusColor: Colors.transparent,
-                  splashColor: Colors.transparent,
-                  child: Stack(
-                    children: [
-                      Container(
-                        width: 25,
-                        height: 25,
-                        margin: const EdgeInsets.only(right: 20),
-                        child: Image.asset(
-                          'assets/icon/cart.png',
-                          color: theme.secondary,
-                        ),
-                      ),
-                      Positioned(
-                          right: 18,
-                          top: 0,
-                          child: Container(
-                            height: 8,
-                            width: 8,
-                            decoration: const BoxDecoration(
-                                color: Colors.red, shape: BoxShape.circle),
-                          ))
-                    ],
-                  ),
-                ),
-              ],
-            ),
+            appBar: HomeAppbar(theme: theme, user: user),
             drawer: const AppDrawer(),
             body: SafeArea(
               child: Column(

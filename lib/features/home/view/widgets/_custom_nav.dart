@@ -19,6 +19,16 @@ class CustomBottomNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 70,
+
+      decoration: BoxDecoration(
+        color: theme.surface,
+        border: Border(
+          top: BorderSide(
+            color: theme.primary.withOpacity(.05),
+            width: 2
+          )
+        )
+      ),
       padding: const EdgeInsets.symmetric(horizontal: 50),
       child: Center(
         child: Row(
@@ -26,7 +36,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
           children: [
             Expanded(
               child: NavItem(
-                asset: "assets/icon/home.png",
+                asset: "assets/icon/home_rounded.png",
                 activeColor: theme.primary,
                 inactiveColor: Colors.grey.shade600,
                 label: "Home",
@@ -36,11 +46,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 },
               ),
             ),
-            const SizedBox(
-              width: 15,
-            ),
+
             Expanded(
               child: NavItem(
+                iconData: Icons.category_outlined,
                 asset: "assets/icon/menu.png",
                 activeColor: theme.primary,
                 inactiveColor: Colors.grey.shade600,
@@ -51,12 +60,10 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 },
               ),
             ),
-            const SizedBox(
-              width: 15,
-            ),
+
             Expanded(
               child: NavItem(
-                asset: "assets/icon/cart.png",
+                asset: "assets/icon/bag.png",
                 activeColor: theme.primary,
                 inactiveColor: Colors.grey.shade600,
                 label: "Cart",
@@ -67,6 +74,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 notification: true,
               ),
             ),
+
           ],
         ),
       ),

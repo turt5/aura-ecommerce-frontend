@@ -5,6 +5,7 @@ import 'package:attira/features/home/view/widgets/_admin_appbar.dart';
 import 'package:attira/features/home/view/widgets/_admin_custom_bottom_navbar.dart';
 import 'package:attira/features/home/view/widgets/_admin_home_body.dart';
 import 'package:attira/features/home/view/widgets/_admin_inbox.dart';
+import 'package:attira/features/home/view/widgets/_admin_orders.dart';
 import 'package:attira/features/splash/view/widgets/_logo.dart';
 import 'package:attira/main.dart';
 import 'package:attira/services/user/firebase/_user_service.dart';
@@ -59,7 +60,7 @@ class AdminHomePage extends ConsumerWidget {
                   )
                       : adminHomeRead.selected == 1
                           ? AdminAddProduct()
-                          : AdminInbox()),
+                          : adminHomeRead.selected == 2? AdminOrders() : AdminInbox()),
               AdminCustomBottomNavigationBar(
                   theme: theme,
                   homeRead: adminHomeRead,

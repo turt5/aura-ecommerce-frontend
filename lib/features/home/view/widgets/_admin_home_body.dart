@@ -1,4 +1,5 @@
 import 'package:attira/features/home/controller/_admin_home_provider.dart';
+import 'package:attira/features/home/view/widgets/_products_sales_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shimmer/shimmer.dart';
@@ -104,6 +105,9 @@ class AdminHomeBody extends ConsumerWidget {
               }
             },
           ),
+
+          const SizedBox(height: 10,),
+
         ],
       ),
     );
