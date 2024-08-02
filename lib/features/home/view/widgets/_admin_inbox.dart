@@ -18,7 +18,8 @@ class AdminInbox extends ConsumerWidget {
         stream: firestoreService.getUsersWithMessages(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CupertinoActivityIndicator(
+            return Center(
+                child: CupertinoActivityIndicator(
               radius: 10,
               color: Theme.of(context).colorScheme.primary,
             ));
@@ -34,7 +35,8 @@ class AdminInbox extends ConsumerWidget {
 
           // Sort users by latest message time
           users.sort((a, b) {
-            return DateTime.parse(b['lastMessageTime']).compareTo(DateTime.parse(a['lastMessageTime']));
+            return DateTime.parse(b['lastMessageTime'])
+                .compareTo(DateTime.parse(a['lastMessageTime']));
           });
 
           return ListView.builder(
@@ -46,7 +48,8 @@ class AdminInbox extends ConsumerWidget {
               final userImage = user['imageUrl'];
               final lastMessage = user['lastMessage'];
               final lastMessageTime = user['lastMessageTime'];
-              final lastMessageTimeParts = lastMessageTime.toString().split(" ")[1].split(":");
+              final lastMessageTimeParts =
+                  lastMessageTime.toString().split(" ")[1].split(":");
               final unreadCount = user['unreadCount']; // Unread count
 
               return Container(
@@ -65,18 +68,24 @@ class AdminInbox extends ConsumerWidget {
                   ),
                   title: Row(
                     children: [
-                      Expanded(child: Text(userName,maxLines: 1,overflow: TextOverflow.ellipsis,)),
-                      unreadCount>0? Container(
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          shape: BoxShape.circle
-                        ),
-                        padding: EdgeInsets.all(8),
-                        child: Text(unreadCount.toString(),style: TextStyle(
-                          fontSize: 10,
-                          color: Colors.white
-                        ),),
-                      ):const SizedBox.shrink()
+                      Expanded(
+                          child: Text(
+                        userName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      )),
+                      unreadCount > 0
+                          ? Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.red, shape: BoxShape.circle),
+                              padding: EdgeInsets.all(8),
+                              child: Text(
+                                unreadCount.toString(),
+                                style: TextStyle(
+                                    fontSize: 10, color: Colors.white),
+                              ),
+                            )
+                          : const SizedBox.shrink()
                     ],
                   ),
                   subtitle: Row(
@@ -87,25 +96,29 @@ class AdminInbox extends ConsumerWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                            fontWeight: unreadCount>0?FontWeight.bold:FontWeight.normal
-                          ),
+                              fontWeight: unreadCount > 0
+                                  ? FontWeight.bold
+                                  : FontWeight.normal),
                         ),
                       ),
                       Text(
                         "${lastMessageTimeParts[0]}:${lastMessageTimeParts[1]}",
                         style: TextStyle(
                           color: Colors.black,
-                          fontWeight: unreadCount>0?FontWeight.bold:FontWeight.normal,
+                          fontWeight: unreadCount > 0
+                              ? FontWeight.bold
+                              : FontWeight.normal,
                         ),
                       ),
                     ],
                   ),
                   onTap: () async {
-                    final SharedPreferences prefs = await SharedPreferences.getInstance();
-                    String myId = prefs.getString('userId')?? " ";
-                    firestoreService.markMessagesAsRead(myId, userId);
-                    print(unreadCount);
-
+                    final SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    String myId = prefs.getString('userId') ?? " ";
+                    firestoreService.markMessagesAsRead(userId, myId);
+                  
+                  
                     Navigator.push(
                       context,
                       MaterialPageRoute(

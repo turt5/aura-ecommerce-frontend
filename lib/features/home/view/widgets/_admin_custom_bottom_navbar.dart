@@ -1,11 +1,43 @@
-import 'package:attira/services/message/firebase/_firestore_message.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../model/_admin_home_model.dart';
 import '_bottom_nav_items.dart';
 
-class AdminCustomBottomNavigationBar extends StatelessWidget {
+final userIdProvider = FutureProvider<String>((ref) async {
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getString('userId') ?? '';
+});
+
+final unreadMessagesProvider =
+    StreamProvider.autoDispose.family<int, String>((ref, userId) {
+  return FirebaseFirestore.instance
+      .collection('messages')
+      .where('userId', isEqualTo: userId)
+      .where('isRead', isEqualTo: false)
+      .snapshots()
+      .map((snapshot) => snapshot.docs.length);
+});
+
+final distinctUsersProvider =
+    StreamProvider.autoDispose.family<int, String>((ref, userId) {
+  return FirebaseFirestore.instance
+      .collection('messages')
+      .where('userId', isEqualTo: userId)
+      .snapshots()
+      .map((snapshot) {
+    final users = snapshot.docs.map((doc) => doc['senderId']).toSet();
+    return users.length;
+  });
+});
+
+class AdminCustomBottomNavigationBar extends ConsumerWidget {
+  final ColorScheme theme;
+  final AdminHomeModel homeRead;
+  final AdminHomeModel homeWrite;
+
   AdminCustomBottomNavigationBar({
     super.key,
     required this.theme,
@@ -13,29 +45,17 @@ class AdminCustomBottomNavigationBar extends StatelessWidget {
     required this.homeWrite,
   });
 
-  final ColorScheme theme;
-  final AdminHomeModel homeRead;
-  final AdminHomeModel homeWrite;
-  final FirestoreService firestoreService = FirestoreService();
-
-  Future<String> _getUserId() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('userId') ?? '';
-  }
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userIdAsync = ref.watch(userIdProvider);
+
     return Container(
       height: 70,
       padding: const EdgeInsets.symmetric(horizontal: 50),
       decoration: BoxDecoration(
           border: Border(
-              top: BorderSide(
-                  color: theme.primary.withOpacity(.05),
-                  width: 2
-              )
-          )
-      ),
+              top:
+                  BorderSide(color: theme.primary.withOpacity(.05), width: 2))),
       child: Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -77,46 +97,17 @@ class AdminCustomBottomNavigationBar extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: FutureBuilder<String>(
-                  future: _getUserId(), // Fetch userId from shared preferences
-                  builder: (context, userSnapshot) {
-                    if (userSnapshot.connectionState == ConnectionState.waiting) {
-                      return NavItem(
-                        asset: "assets/icon/message.png",
-                        activeColor: theme.primary,
-                        inactiveColor: Colors.grey.shade600,
-                        label: "Inbox",
-                        active: homeRead.selected == 3,
-                        onPressed: () {
-                          homeWrite.selected = 3;
-                        },
-                        notification: false,
-                      );
-                    }
+              child: userIdAsync.when(
+                data: (userId) {
+                  final unreadCountAsync =
+                      ref.watch(unreadMessagesProvider(userId));
+                  final distinctUsersCountAsync =
+                      ref.watch(distinctUsersProvider(userId));
 
-                    if (userSnapshot.hasError || !userSnapshot.hasData) {
-                      return NavItem(
-                        asset: "assets/icon/message.png",
-                        activeColor: theme.primary,
-                        inactiveColor: Colors.grey.shade600,
-                        label: "Inbox",
-                        active: homeRead.selected == 3,
-                        onPressed: () {
-                          homeWrite.selected = 3;
-                        },
-                        notification: false,
-                      );
-                    }
-
-                    final userId = userSnapshot.data!;
-
-                    return FutureBuilder(
-                      future: Future.wait([
-                        firestoreService.countDistinctUsers(userId),
-                        firestoreService.countUnreadConversations(userId),
-                      ]),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
+                  return unreadCountAsync.when(
+                    data: (unreadCount) {
+                      return distinctUsersCountAsync.when(
+                        data: (distinctUsersCount) {
                           return NavItem(
                             asset: "assets/icon/message.png",
                             activeColor: theme.primary,
@@ -126,48 +117,53 @@ class AdminCustomBottomNavigationBar extends StatelessWidget {
                             onPressed: () {
                               homeWrite.selected = 3;
                             },
-                            // notification: false,
+                            notification: unreadCount > 0,
+                            notificationCount: unreadCount,
                           );
-                        }
-
-                        if (snapshot.hasError || !snapshot.hasData) {
-                          return NavItem(
-                            asset: "assets/icon/message.png",
-                            activeColor: theme.primary,
-                            inactiveColor: Colors.grey.shade600,
-                            label: "Inbox",
-                            active: homeRead.selected == 3,
-                            onPressed: () {
-                              homeWrite.selected = 3;
-                            },
-                            // notification: false,
-                          );
-                        }
-
-                        final counts = snapshot.data as List<int>;
-                        final distinctUsersCount = counts[0];
-                        final unreadConversationsCount = counts[1];
-
-                        return NavItem(
-                          asset: "assets/icon/message.png",
-                          activeColor: theme.primary,
-                          inactiveColor: Colors.grey.shade600,
-                          label: "Inbox",
-                          active: homeRead.selected == 3,
-                          onPressed: () {
-                            homeWrite.selected = 3;
-                          },
-                          notification: unreadConversationsCount > 0,
-                          notificationCount: unreadConversationsCount,
-                        );
-                      },
-                    );
-                  }
+                        },
+                        loading: () => _buildLoadingNavItem(),
+                        error: (_, __) => _buildErrorNavItem(),
+                      );
+                    },
+                    loading: () => _buildLoadingNavItem(),
+                    error: (_, __) => _buildErrorNavItem(),
+                  );
+                },
+                loading: () => _buildLoadingNavItem(),
+                error: (_, __) => _buildErrorNavItem(),
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  NavItem _buildLoadingNavItem() {
+    return NavItem(
+      asset: "assets/icon/message.png",
+      activeColor: theme.primary,
+      inactiveColor: Colors.grey.shade600,
+      label: "Inbox",
+      active: homeRead.selected == 3,
+      onPressed: () {
+        homeWrite.selected = 3;
+      },
+      notification: false,
+    );
+  }
+
+  NavItem _buildErrorNavItem() {
+    return NavItem(
+      asset: "assets/icon/message.png",
+      activeColor: theme.primary,
+      inactiveColor: Colors.grey.shade600,
+      label: "Inbox",
+      active: homeRead.selected == 3,
+      onPressed: () {
+        homeWrite.selected = 3;
+      },
+      notification: false,
     );
   }
 }

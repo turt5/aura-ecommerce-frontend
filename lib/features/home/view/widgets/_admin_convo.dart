@@ -52,10 +52,13 @@ class AdminConvo extends ConsumerWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 10,),
-            Text('${name}',style: TextStyle(
-              fontSize: 16
-            ),),
+            const SizedBox(
+              width: 10,
+            ),
+            Text(
+              '${name}',
+              style: TextStyle(fontSize: 16),
+            ),
           ],
         ),
         centerTitle: false,
@@ -112,9 +115,9 @@ class AdminConvo extends ConsumerWidget {
                           padding: const EdgeInsets.symmetric(
                               vertical: 5, horizontal: 8),
                           child: Align(
-                            alignment: !isUserMessage
-                                ? Alignment.centerRight
-                                : Alignment.centerLeft,
+                            alignment: isUserMessage
+                                ? Alignment.centerLeft
+                                : Alignment.centerRight,
                             child: Container(
                               constraints: BoxConstraints(maxWidth: w * 0.7),
                               padding: const EdgeInsets.symmetric(
@@ -182,7 +185,7 @@ class AdminConvo extends ConsumerWidget {
                   firestoreService.addMessage({
                     'content': null,
                     'image': image.path,
-                    'from': 'user',
+                    'from': 'admin',
                     'sent': DateTime.now().toString(),
                     'userId': userId, // Add user ID
                     'receiverId': receiverId, // Add receiver ID
@@ -195,7 +198,7 @@ class AdminConvo extends ConsumerWidget {
                   firestoreService.addMessage({
                     'content': message,
                     'image': _selectedImage?.path,
-                    'from': 'user',
+                    'from': 'admin',
                     'sent': DateTime.now().toString(),
                     'userId': userId, // Add user ID
                     'receiverId': receiverId, // Add receiver ID

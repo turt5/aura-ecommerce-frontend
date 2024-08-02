@@ -53,6 +53,8 @@ class FirebaseService {
   }
 
   Future<Map<String, dynamic>?> loginUser(String email, String password) async {
+
+    // sharedpreferences to store data in local storage (as cookie)
     final SharedPreferences preferences = await SharedPreferences.getInstance();
 
     try {
@@ -64,6 +66,8 @@ class FirebaseService {
       DocumentSnapshot userDoc =
       await _firebaseFirestore.collection('users').doc(user.uid).get();
       Map<String, dynamic>? userData = userDoc.data() as Map<String, dynamic>?;
+
+      // Store the retreived data in local storage
       preferences.setString('userId', user.uid);
       preferences.setString('role', userData!['role']);
       preferences.setString('imageUrl', userData!['imageUrl']);
