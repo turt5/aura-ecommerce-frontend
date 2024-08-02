@@ -28,7 +28,55 @@ class AdminHomeDrawer extends StatelessWidget {
                     color: theme.onPrimary,
                   ),
                 )),
-            Expanded(child: Center(child: Text('Drawer Items'),)),
+            Expanded(
+                child: ListView(
+              children: [
+                ListTile(
+                  onTap: () {},
+                  leading: Icon(
+                    Icons.manage_accounts,
+                    color: theme.primary,
+                  ),
+                  title: Text(
+                    'Manage Users',
+                    style: TextStyle(color: theme.primary),
+                  ),
+                ),ListTile(
+                  onTap: () {},
+                  leading: Icon(
+                    Icons.settings,
+                    color: theme.primary,
+                  ),
+                  title: Text(
+                    'Manage Products',
+                    style: TextStyle(color: theme.primary),
+                  ),
+                ),
+                ListTile(
+                  onTap: () {},
+                  leading: Icon(
+                    Icons.category,
+                    color: theme.primary,
+                  ),
+                  title: Text(
+                    'Manage Categories',
+                    style: TextStyle(color: theme.primary),
+                  ),
+                ),
+
+                ListTile(
+                  onTap: () {},
+                  leading: Icon(
+                    Icons.discount,
+                    color: theme.primary,
+                  ),
+                  title: Text(
+                    'Add Discounts',
+                    style: TextStyle(color: theme.primary),
+                  ),
+                ),
+              ],
+            )),
             Container(
               width: double.infinity,
               height: 50,
@@ -38,7 +86,8 @@ class AdminHomeDrawer extends StatelessWidget {
                   FirebaseService firebaseService = FirebaseService();
 
                   firebaseService.logoutUser();
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>MyApp()));
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => MyApp()));
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: theme.error,
