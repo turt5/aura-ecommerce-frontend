@@ -5,6 +5,8 @@ import 'package:attira/features/home/view/widgets/_categories_body.dart';
 import 'package:attira/features/home/view/widgets/_drawer.dart';
 import 'package:attira/features/home/view/widgets/_home_appbar.dart';
 import 'package:attira/features/home/view/widgets/_home_body.dart';
+import 'package:attira/features/home/view/widgets/_home_profile.dart';
+import 'package:attira/features/home/view/widgets/_user_inbox.dart';
 import 'package:attira/features/splash/view/widgets/_logo.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -54,7 +56,7 @@ class HomePage extends ConsumerWidget {
                           ? const HomeBody()
                           : homeRead.selected == 1
                           ? const CategoriesBody()
-                          : const CartBody()),
+                          : homeRead.selected == 2? const CartBody(): homeRead.selected == 3? UserInbox() : HomeProfilePage()),
                   CustomBottomNavigationBar(
                       theme: theme, homeRead: homeRead, homeWrite: homeWrite)
                 ],

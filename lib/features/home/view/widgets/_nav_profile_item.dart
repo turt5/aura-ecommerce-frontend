@@ -1,18 +1,21 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class NavItem extends StatelessWidget {
-  const NavItem({
+class NavProfileItem extends StatelessWidget {
+  const NavProfileItem({
     super.key,
-    required this.asset,
+    required this.url,
     required this.label,
     required this.activeColor,
     required this.inactiveColor,
     required this.active,
     required this.onPressed,
-    this.notification, this.iconData,
+    this.notification,
+    this.iconData,
   });
 
-  final String asset;
+  final String url;
   final String label;
   final Color activeColor;
   final Color inactiveColor;
@@ -32,10 +35,34 @@ class NavItem extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            iconData!=null? Icon(iconData,color: active?activeColor:inactiveColor,)  : Image.asset(
-              asset,
-              scale: 1.9,
-              color: active ? activeColor : inactiveColor,
+            Container(
+              width: 28,
+              height: 28,
+              padding: EdgeInsets.all(2),
+              clipBehavior: Clip.hardEdge,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  width: 2,
+                  color: active?activeColor:inactiveColor
+                )
+              ),
+              child: CachedNetworkImage(
+                imageUrl: url,
+                fit: BoxFit.cover,
+                progressIndicatorBuilder: (context, _, d) {
+                  return Center(
+                    child: CupertinoActivityIndicator(
+                      radius: 8,
+                    ),
+                  );
+                },
+                errorWidget: (context, _, d) {
+                  return Center(
+                    child: Icon(iconData),
+                  );
+                },
+              ),
             ),
             !active
                 ? AnimatedContainer(

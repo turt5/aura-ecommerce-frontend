@@ -34,7 +34,7 @@ class AdminCustomBottomNavigationBar extends StatelessWidget {
           children: [
             Expanded(
               child: NavItem(
-                asset: "assets/icon/home.png",
+                asset: "assets/icon/home_rounded.png",
                 activeColor: theme.primary,
                 inactiveColor: Colors.grey.shade600,
                 label: "Home",

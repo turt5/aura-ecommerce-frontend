@@ -1,4 +1,5 @@
 import 'package:attira/services/products/firebase/_product_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shimmer/shimmer.dart';
@@ -100,7 +101,7 @@ class AdminAddCategory extends ConsumerWidget {
               builder: (context, snapshot) {
                 print(snapshot.data);
                 if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
+                  return Center(child: CupertinoActivityIndicator(radius: 10,color: theme.primary,));
                 }
 
                 if (snapshot.connectionState == ConnectionState.waiting) {
