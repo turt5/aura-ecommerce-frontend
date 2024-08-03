@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class HomeTShirtSection extends StatelessWidget {
-  const HomeTShirtSection({super.key, required this.theme, required this.onTap});
+  const HomeTShirtSection(
+      {super.key, required this.theme, required this.onTap});
 
   final ColorScheme theme;
   final VoidCallback onTap;
@@ -9,7 +10,7 @@ class HomeTShirtSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 260,
+      height: 440,
       child: Column(
         children: [
           Row(
@@ -39,7 +40,7 @@ class HomeTShirtSection extends StatelessWidget {
                 mainAxisSpacing: 10.0,
                 mainAxisExtent: 180,
               ),
-              itemCount: 3, // Total number of items
+              itemCount: 6, // Total number of items
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: onTap,
@@ -56,12 +57,12 @@ class HomeTShirtSection extends StatelessWidget {
                           height: 60,
                           decoration: BoxDecoration(
                             color: theme.primary.withOpacity(.1),
-                            borderRadius: const  BorderRadius.only(
+                            borderRadius: const BorderRadius.only(
                                 bottomLeft: Radius.circular(15),
                                 bottomRight: Radius.circular(15)),
                           ),
-                          padding:
-                              const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 5, vertical: 5),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
@@ -69,8 +70,8 @@ class HomeTShirtSection extends StatelessWidget {
                                 "Men's Premium T-Shirt Hope",
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style:
-                                    TextStyle(color: theme.primary, fontSize: 10),
+                                style: TextStyle(
+                                    color: theme.primary, fontSize: 10),
                               ),
                               Text(
                                 "BDT 599.",
