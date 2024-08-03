@@ -2,15 +2,19 @@ import 'package:flutter/material.dart';
 
 class HomeTShirtSection extends StatelessWidget {
   const HomeTShirtSection(
-      {super.key, required this.theme, required this.onTap});
+      {super.key,
+      required this.theme,
+      required this.onTap,
+      required this.title});
 
   final ColorScheme theme;
   final VoidCallback onTap;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 440,
+      height: 470,
       child: Column(
         children: [
           Row(
@@ -19,7 +23,7 @@ class HomeTShirtSection extends StatelessWidget {
               TextButton(
                 onPressed: () {},
                 child: Text(
-                  'T-Shirts',
+                  title,
                   style: TextStyle(
                       color: theme.primary,
                       fontSize: 16,
@@ -52,7 +56,16 @@ class HomeTShirtSection extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        const Expanded(child: Placeholder()),
+                        Expanded(
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(15),
+                                    topRight: Radius.circular(15)),
+                                child: Image.asset(
+                                  'assets/picture/denim-jacket.png',
+                                  // color: theme.primary,
+                                  fit: BoxFit.cover,
+                                ))),
                         Container(
                           height: 60,
                           decoration: BoxDecoration(
