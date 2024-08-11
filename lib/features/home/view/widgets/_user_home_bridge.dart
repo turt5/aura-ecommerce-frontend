@@ -3,6 +3,7 @@ import 'package:attira/features/home/view/widgets/_categories_body.dart';
 import 'package:attira/features/home/view/widgets/_home_body.dart';
 import 'package:attira/features/home/view/widgets/_home_profile.dart';
 import 'package:attira/features/home/view/widgets/_user_inbox.dart';
+import 'package:attira/features/home/view/widgets/_user_message.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -20,7 +21,7 @@ class UserHomeBridge extends StatelessWidget {
             : read.selected == 2
                 ? CartBody()
                 : read.selected == 3
-                    ? UserInbox()
+                    ? UserMessageView()
                     : HomeProfilePage();
   }
 }

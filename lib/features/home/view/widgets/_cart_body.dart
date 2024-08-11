@@ -1,3 +1,4 @@
+import 'package:attira/features/home/view/widgets/_custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class CartBody extends StatelessWidget {
@@ -5,11 +6,17 @@ class CartBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Cart',
-        style: TextStyle(
-            color: Theme.of(context).colorScheme.primary, fontSize: 18),
+
+    final theme = Theme.of(context).colorScheme;
+
+    return Scaffold(
+      appBar: CustomAppBar(title: "Cart", theme: theme),
+      body: Center(
+        child: Text(
+          'Cart Page',
+          style: TextStyle(
+              color: Theme.of(context).colorScheme.primary, fontSize: 18),
+        ),
       ),
     );
   }

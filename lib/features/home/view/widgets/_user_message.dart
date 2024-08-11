@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:attira/features/home/view/widgets/_custom_app_bar.dart';
 import 'package:attira/services/message/provider/_firestore_message_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,17 +25,12 @@ class UserMessageView extends ConsumerWidget {
 
     // Fetch messages from Firestore
     final messageStream = firestoreService.getMessages(userId, receiverId);
+    final theme = Theme.of(context).colorScheme;
 
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: AppBar(
-        title: Text('Inbox'),
-        centerTitle: true,
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        toolbarHeight: 70,
-        foregroundColor: Theme.of(context).colorScheme.onPrimary,
-      ),
+      appBar: CustomAppBar(title: "Support", theme: theme),
       body: SafeArea(
         child: Column(
           children: [
@@ -45,13 +41,13 @@ class UserMessageView extends ConsumerWidget {
                   stream: firestoreService.getMessages(userId, receiverId),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     }
                     if (snapshot.hasError) {
                       return Center(child: Text('Error: ${snapshot.error}'));
                     }
                     if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return Center(child: Text('No messages'));
+                      return const Center(child: Text('No messages'));
                     }
 
                     final messages = snapshot.data!;
@@ -71,6 +67,7 @@ class UserMessageView extends ConsumerWidget {
                     });
 
                     return ListView.builder(
+                      padding: const EdgeInsets.only(top: 10),
                       controller: _scrollController,
                       reverse: false,
                       itemCount: sortedMessages.length,
