@@ -22,7 +22,7 @@ void main() async {
       overrides: [
         sharedPreferencesProvider.overrideWithValue(sharedPreferences),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
@@ -97,7 +97,7 @@ class MyApp extends StatelessWidget {
             // Handle error state
             return Scaffold(
               backgroundColor: Theme.of(context).colorScheme.surface,
-              body: Center(
+              body: const Center(
                 child: Text('An error occurred!'),
               ),
             );
