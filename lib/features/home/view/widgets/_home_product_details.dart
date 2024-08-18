@@ -1,21 +1,17 @@
+import 'package:attira/features/home/controller/_products_details_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeProductDetails extends StatelessWidget {
+class HomeProductDetails extends ConsumerWidget {
   HomeProductDetails({super.key});
 
-  final Map<String, String> sizes = {
-    "S": "499",
-    "M": "499",
-    "L": "550",
-    "XL": "599",
-    "XXL": "650"
-  };
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context).colorScheme;
     final double width = MediaQuery.of(context).size.width;
+    final pdProviderRead = ref.watch(productsDetailsProvider);
+    final pdProviderWrite = ref.read(productsDetailsProvider);
 
     return Scaffold(
       backgroundColor: theme.surface,
@@ -26,6 +22,13 @@ class HomeProductDetails extends StatelessWidget {
               child: CustomScrollView(
                 slivers: [
                   SliverAppBar(
+                    leading: IconButton(
+                        onPressed: () {
+                          pdProviderWrite.selectedQuantity = 1;
+                          pdProviderWrite.setKey = null;
+                          Navigator.of(context).pop();
+                        },
+                        icon: Icon(Icons.arrow_back)),
                     backgroundColor: theme.surface,
                     expandedHeight: 300,
                     flexibleSpace: FlexibleSpaceBar(
@@ -58,9 +61,12 @@ class HomeProductDetails extends StatelessWidget {
                                   const SizedBox(
                                     width: 30,
                                   ),
-                                  Text('BDT 599.',
+                                  Text(
+                                      pdProviderRead.getSelectedKey == null
+                                          ? "-"
+                                          : "BDT ${pdProviderRead.getSizes[pdProviderRead.getSelectedKey]} ",
                                       style: TextStyle(
-                                          color: theme.primary,
+                                          color: Colors.green,
                                           fontSize: 17,
                                           fontWeight: FontWeight.bold)),
                                 ],
@@ -71,9 +77,9 @@ class HomeProductDetails extends StatelessWidget {
                               Container(
                                 decoration: BoxDecoration(
                                     border: Border.all(
-                                        color: theme.primary.withOpacity(.3),
+                                        color: theme.primary.withOpacity(.1),
                                         width: 2)),
-                                padding: EdgeInsets.all(8),
+                                padding: EdgeInsets.all(10),
                                 child: Column(
                                   children: [
                                     Row(
@@ -86,6 +92,56 @@ class HomeProductDetails extends StatelessWidget {
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.bold)),
                                       ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: pdProviderRead.getSizes.entries
+                                          .map((entry) {
+                                        return Container(
+                                          margin: EdgeInsets.only(right: 10),
+                                          child: InkWell(
+                                            onTap: () {
+                                              pdProviderWrite.setKey =
+                                                  entry.key;
+                                            },
+                                            child: Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 13,
+                                                      vertical: 8),
+                                              decoration: BoxDecoration(
+                                                  color: pdProviderRead
+                                                                  .getSelectedKey !=
+                                                              null &&
+                                                          entry.key
+                                                                  .toString() ==
+                                                              pdProviderRead
+                                                                  .getSelectedKey
+                                                      ? theme.primary
+                                                      : Colors.transparent,
+                                                  border: Border.all(
+                                                      width: 2,
+                                                      color: Colors.grey
+                                                          .withOpacity(.5))),
+                                              child: Text(
+                                                entry.key,
+                                                style: TextStyle(
+                                                    color: pdProviderRead
+                                                                    .getSelectedKey !=
+                                                                null &&
+                                                            entry.key
+                                                                    .toString() ==
+                                                                pdProviderRead
+                                                                    .getSelectedKey
+                                                        ? theme.onPrimary
+                                                        : theme.onSurface),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
                                     ),
                                     const SizedBox(
                                       height: 20,
@@ -109,7 +165,17 @@ class HomeProductDetails extends StatelessWidget {
                                             children: [
                                               Expanded(
                                                 child: IconButton(
-                                                    onPressed: () {},
+                                                    onPressed: () {
+                                                      if (pdProviderRead
+                                                              .selectedQuantity >
+                                                          1) {
+                                                        pdProviderWrite
+                                                                .selectedQuantity =
+                                                            pdProviderRead
+                                                                    .selectedQuantity -
+                                                                1;
+                                                      }
+                                                    },
                                                     color: theme.error,
                                                     icon: Icon(Icons.remove)),
                                               ),
@@ -118,7 +184,7 @@ class HomeProductDetails extends StatelessWidget {
                                               ),
                                               Expanded(
                                                 child: Text(
-                                                  '1000000',
+                                                  '${pdProviderRead.selectedQuantity}',
                                                   maxLines: 1,
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
@@ -132,7 +198,13 @@ class HomeProductDetails extends StatelessWidget {
                                               ),
                                               Expanded(
                                                 child: IconButton(
-                                                    onPressed: () {},
+                                                    onPressed: () {
+                                                      pdProviderWrite
+                                                              .selectedQuantity =
+                                                          pdProviderRead
+                                                                  .selectedQuantity +
+                                                              1;
+                                                    },
                                                     color: theme.primary,
                                                     icon: Icon(Icons.add)),
                                               ),
@@ -143,6 +215,20 @@ class HomeProductDetails extends StatelessWidget {
                                     ),
                                   ],
                                 ),
+                              ),
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    'Product Details:',
+                                    style: TextStyle(
+                                        color: theme.onSurface,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16),
+                                  )
+                                ],
                               ),
                               const SizedBox(
                                 height: 20,
