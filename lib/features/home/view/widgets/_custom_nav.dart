@@ -178,43 +178,18 @@ class CustomBottomNavigationBar extends StatelessWidget {
               },
             ),
             Expanded(
-              child: FutureBuilder<Map<String, dynamic>>(
-                future: _getUserData(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
-                  }
-
-                  if (snapshot.hasError || !snapshot.hasData) {
-                    return NavItem(
-                      asset: "assets/icon/bag.png",
-                      activeColor: theme.primary,
-                      inactiveColor: Colors.grey.shade600,
-                      label: "Cart",
-                      active: homeRead.selected == 4,
-                      iconData: Icons.person_outlined,
-                      onPressed: () {
-                        homeWrite.selected = 4;
-                      },
-                      notification: false,
-                    );
-                  }
-
-                  final user = snapshot.data!;
-
-                  return NavProfileItem(
-                    url: user['imageUrl'],
-                    label: "Profile",
-                    activeColor: theme.primary,
-                    inactiveColor: Colors.grey.shade600,
-                    active: homeRead.selected == 4,
-                    onPressed: () {
-                      homeWrite.selected = 4;
-                    },
-                    notification: false,
-                  );
-                },
-              ),
+              child: NavItem(
+              asset: "assets/icon/user-icon.png",
+              label: "Profile",
+              activeColor: theme.primary,
+              inactiveColor: Colors.grey.shade600,
+              active: homeRead.selected == 4,
+              scale: 1.8,
+              onPressed: () {
+                homeWrite.selected = 4;
+              },
+              notification: false,
+            ),
             ),
           ],
         ),

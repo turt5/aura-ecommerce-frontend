@@ -16,7 +16,7 @@ class HomeAppbar extends ConsumerWidget implements PreferredSizeWidget {
         onPressed: () {
           scaffoldKey.currentState?.openDrawer();
         },
-        icon: Icon(Icons.menu),
+        icon: const Icon(Icons.menu),
       ),
       toolbarHeight: 70,
       // elevation: 2,
@@ -33,4 +33,7 @@ class HomeAppbar extends ConsumerWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
+
+
 }

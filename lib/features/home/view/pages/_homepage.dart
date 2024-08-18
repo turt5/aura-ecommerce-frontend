@@ -31,15 +31,19 @@ class HomePage extends ConsumerWidget {
         systemNavigationBarColor: theme.surface,
         systemNavigationBarIconBrightness: theme.brightness));
 
-    return Scaffold(
-      body: SafeArea(
-          child: Column(
-        children: [
-          Expanded(child: UserHomeBridge(read: homeRead,)),
-          CustomBottomNavigationBar(
-              theme: theme, homeRead: homeRead, homeWrite: homeWrite)
-        ],
-      )),
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          children: [
+            Expanded(
+                child: UserHomeBridge(
+              read: homeRead,
+            )),
+          ],
+        ),
+        bottomNavigationBar: CustomBottomNavigationBar(
+            theme: theme, homeRead: homeRead, homeWrite: homeWrite),
+      ),
     );
   }
 }

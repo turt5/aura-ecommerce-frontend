@@ -12,6 +12,7 @@ class NavItem extends StatelessWidget {
     this.notification,
     this.iconData,
     this.notificationCount,
+    this.scale
   });
 
   final String asset;
@@ -23,6 +24,7 @@ class NavItem extends StatelessWidget {
   final bool? notification;
   final IconData? iconData;
   final int? notificationCount;
+  final double? scale;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,7 @@ class NavItem extends StatelessWidget {
                     children: [
                       Image.asset(
                         asset,
-                        scale: 1.9,
+                        scale: scale?? 1.9,
                         color: active ? activeColor : inactiveColor,
                       ),
                       notification ==true
