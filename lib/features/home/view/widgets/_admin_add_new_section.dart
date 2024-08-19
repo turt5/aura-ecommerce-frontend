@@ -1,32 +1,29 @@
+import 'package:attira/features/home/view/widgets/_custom_app_bar.dart';
 import 'package:attira/services/products/firebase/_product_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shimmer/shimmer.dart';
 
-class AdminAddCategory extends ConsumerWidget {
-  AdminAddCategory({super.key});
-
-  final TextEditingController _controller = TextEditingController();
-  final TextEditingController _editController = TextEditingController();
+class AdminAddNewSection extends StatelessWidget {
+  AdminAddNewSection({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final theme = Theme.of(context).colorScheme;
     final FirebaseProductService productService = FirebaseProductService();
 
-    void _showEditDialog(BuildContext context, Category category) {
-      _editController.text = category.name;
+    void _showEditDialog(BuildContext context, Section section) {
+      _editController.text = section.name;
 
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Edit Category'),
+            title: Text('Edit Section'),
             content: TextField(
               controller: _editController,
               decoration: InputDecoration(
-                hintText: 'Category name',
+                hintText: 'Section name',
               ),
             ),
             actions: [
@@ -38,16 +35,16 @@ class AdminAddCategory extends ConsumerWidget {
               ),
               TextButton(
                 onPressed: () {
-                  String newCategoryName = _editController.text.trim();
+                  String newSectionName = _editController.text.trim();
 
-                  if (newCategoryName.isNotEmpty) {
+                  if (newSectionName.isNotEmpty) {
                     productService
-                        .updateCategory(category.id, newCategoryName)
+                        .updateSection(section.id, newSectionName)
                         .then((_) {
                       Navigator.of(context).pop();
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text('Category updated successfully!',
+                          content: Text('Section updated successfully!',
                               style: TextStyle(color: theme.onPrimary)),
                           backgroundColor: theme.primary,
                         ),
@@ -55,7 +52,7 @@ class AdminAddCategory extends ConsumerWidget {
                     }).catchError((error) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text('Failed to update category: $error',
+                          content: Text('Failed to update section: $error',
                               style: TextStyle(color: theme.onPrimary)),
                           backgroundColor: theme.primary,
                         ),
@@ -72,10 +69,10 @@ class AdminAddCategory extends ConsumerWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Categories'),
-      ),
-      body: Column(
+      backgroundColor: theme.surface,
+      appBar: CustomAppBar(title: 'Add New Section', theme: theme),
+      body: SafeArea(
+          child: Column(
         children: [
           Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
@@ -88,7 +85,7 @@ class AdminAddCategory extends ConsumerWidget {
                   child: TextField(
                     controller: _controller,
                     decoration: InputDecoration(
-                      hintText: 'Add new category',
+                      hintText: 'Add new Section',
                       hintStyle: const TextStyle(color: Colors.grey),
                       fillColor: theme.primary.withOpacity(.1),
                       filled: true,
@@ -106,14 +103,14 @@ class AdminAddCategory extends ConsumerWidget {
                 SizedBox(width: 5),
                 InkWell(
                   onTap: () {
-                    String category = _controller.text.trim();
+                    String section = _controller.text.trim();
 
-                    if (category.isNotEmpty) {
-                      productService.addCategory(category).then((_) {
+                    if (section.isNotEmpty) {
+                      productService.addSection(section).then((_) {
                         _controller.clear(); // Clear the input after adding
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('Category added successfully!',
+                            content: Text('Section added successfully!',
                                 style: TextStyle(color: theme.onPrimary)),
                             backgroundColor: theme.primary,
                           ),
@@ -121,7 +118,7 @@ class AdminAddCategory extends ConsumerWidget {
                       }).catchError((error) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('Failed to add category: $error',
+                            content: Text('Failed to add Section: $error',
                                 style: TextStyle(color: theme.onPrimary)),
                             backgroundColor: theme.primary,
                           ),
@@ -130,7 +127,7 @@ class AdminAddCategory extends ConsumerWidget {
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text('Category cannot be empty!',
+                          content: Text('Section cannot be empty!',
                               style: TextStyle(color: theme.onPrimary)),
                           backgroundColor: theme.primary,
                         ),
@@ -155,32 +152,29 @@ class AdminAddCategory extends ConsumerWidget {
               ],
             ),
           ),
-          // const SizedBox(
-          //   height: 10,
-          // ),
           Container(
-            width: double.infinity,
+              width: double.infinity,
               decoration: BoxDecoration(color: Colors.white),
               padding: EdgeInsets.symmetric(vertical: 20),
-              child: Center(child: Text('Existing Categories:',style: TextStyle(
-                color: theme.onSurface,
-                fontSize: 15,
-                fontWeight: FontWeight.bold
-              ),))),
-          // const SizedBox(
-          //   height: 10,
-          // ),
+              child: Center(
+                  child: Text(
+                'Existing Sections:',
+                style: TextStyle(
+                    color: theme.onSurface,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold),
+              ))),
           Expanded(
-            child: StreamBuilder<List<Category>>(
-              stream: productService.getCategories(),
+            child: StreamBuilder<List<Section>>(
+              stream: productService.getSections(),
               builder: (context, snapshot) {
+                print(snapshot.data);
                 if (snapshot.hasError) {
                   return Center(
-                    child: CupertinoActivityIndicator(
-                      radius: 10,
-                      color: theme.primary,
-                    ),
-                  );
+                      child: CupertinoActivityIndicator(
+                    radius: 10,
+                    color: theme.primary,
+                  ));
                 }
 
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -218,63 +212,67 @@ class AdminAddCategory extends ConsumerWidget {
                 }
 
                 if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Center(child: Text('No categories found.'));
+                  return Center(child: Text('No sections found.'));
                 }
 
-                List<Category> categories = snapshot.data!;
+                List<Section> sections = snapshot.data!;
 
                 return ListView.builder(
-                  itemCount: categories.length,
+                  itemCount: sections.length,
                   itemBuilder: (context, index) {
-                    final category = categories[index];
+                    final section = sections[index];
                     return Container(
                       margin: const EdgeInsets.only(bottom: 5),
                       child: ListTile(
                         title: Text(
-                          category.name,
+                          section.name,
                           style: TextStyle(color: theme.primary),
                         ),
                         tileColor: Colors.white,
                         leading: Icon(
-                          Icons.category,
+                          Icons.category_outlined,
                           color: theme.primary,
                         ),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             IconButton(
-                              onPressed: () {
-                                _showEditDialog(context, category);
-                              },
-                              icon: Icon(Icons.edit),
-                            ),
+                                onPressed: () {
+                                  _showEditDialog(context, section);
+                                },
+                                icon: Icon(
+                                  Icons.edit,
+                                  color: theme.error,
+                                )),
                             IconButton(
-                              onPressed: () {
-                                String id = category.id;
-                                productService.deleteCategory(id).then((_) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                          'Category deleted successfully!',
-                                          style: TextStyle(
-                                              color: theme.onPrimary)),
-                                      backgroundColor: theme.primary,
-                                    ),
-                                  );
-                                }).catchError((error) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                          'Failed to delete category: $error',
-                                          style: TextStyle(
-                                              color: theme.onPrimary)),
-                                      backgroundColor: theme.primary,
-                                    ),
-                                  );
-                                });
-                              },
-                              icon: Icon(Icons.delete, color: theme.error),
-                            ),
+                                onPressed: () {
+                                  String id = section.id;
+                                  productService.removeSection(id).then((_) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                            'Section deleted successfully!',
+                                            style: TextStyle(
+                                                color: theme.onPrimary)),
+                                        backgroundColor: theme.primary,
+                                      ),
+                                    );
+                                  }).catchError((error) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                            'Failed to delete section: $error',
+                                            style: TextStyle(
+                                                color: theme.onPrimary)),
+                                        backgroundColor: theme.primary,
+                                      ),
+                                    );
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.delete,
+                                  color: theme.error,
+                                )),
                           ],
                         ),
                       ),
@@ -285,7 +283,10 @@ class AdminAddCategory extends ConsumerWidget {
             ),
           ),
         ],
-      ),
+      )),
     );
   }
+
+  final TextEditingController _controller = TextEditingController();
+  final TextEditingController _editController = TextEditingController();
 }

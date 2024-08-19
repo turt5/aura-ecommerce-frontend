@@ -4,6 +4,48 @@ class FirebaseProductService {
   final FirebaseFirestore _firestoreDB = FirebaseFirestore.instance;
   final String _collectionPath = 'categories';
 
+  Future<void> addSection(String sectionName) async {
+    try {
+      await _firestoreDB.collection('sections').add(
+          {'name': sectionName, 'timeStamp': FieldValue.serverTimestamp()});
+    } catch (e) {
+      print(e);
+    }
+  }
+
+
+  Stream<List<Section>> getSections(){
+    return _firestoreDB.collection('sections').snapshots().map((snapshot){
+      final sections = snapshot.docs.map((doc){
+        final data = doc.data();
+        return Section.fromFirestore(doc.id, data);
+      }).toList();
+
+      return sections;
+    });
+  }
+
+  Future<void> removeSection(String id)async{
+    try{
+      _firestoreDB.collection('sections').doc(id).delete();
+    }catch(e){
+      print(e);
+    }
+  }
+
+  Future<void> updateSection(String id, String name) async{
+    try{
+      _firestoreDB.collection('sections').doc(id).update(
+        {
+          'name': name,
+          'timestamp': FieldValue.serverTimestamp()
+        }
+      );
+    }catch(e){
+      print(e);
+    }
+  }
+
   // Add a new category
   Future<void> addCategory(String categoryName) async {
     try {
@@ -20,11 +62,11 @@ class FirebaseProductService {
   // Get all categories
   Stream<List<Category>> getCategories() {
     return _firestoreDB.collection(_collectionPath).snapshots().map(
-          (snapshot) {
+      (snapshot) {
         print('Snapshot received with ${snapshot.docs.length} documents');
         final categories = snapshot.docs.map(
-              (doc) {
-            final data = doc.data() as Map<String, dynamic>;
+          (doc) {
+            final data = doc.data();
             print('Document ID: ${doc.id}, Data: $data');
             return Category.fromFirestore(doc.id, data);
           },
@@ -33,7 +75,6 @@ class FirebaseProductService {
       },
     );
   }
-
 
   // Update an existing category
   Future<void> updateCategory(String categoryId, String newCategoryName) async {
@@ -79,3 +120,17 @@ class Category {
   }
 }
 
+class Section {
+  final String id;
+  final String name;
+  final Timestamp timestamp;
+
+  Section({required this.id, required this.name, required this.timestamp});
+
+  factory Section.fromFirestore(String id, Map<String, dynamic> data) {
+    return Section(
+        id: id,
+        name: data['name'] ?? "",
+        timestamp: data['timeStamp'] as Timestamp);
+  }
+}

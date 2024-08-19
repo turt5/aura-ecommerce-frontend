@@ -1,5 +1,6 @@
 import 'package:attira/features/home/view/widgets/_admin_add_category.dart';
 import 'package:attira/features/home/view/widgets/_admin_add_new_product.dart';
+import 'package:attira/features/home/view/widgets/_admin_add_new_section.dart';
 import 'package:flutter/material.dart';
 
 class AdminAddProduct extends StatelessWidget {
@@ -29,6 +30,30 @@ class AdminAddProduct extends StatelessWidget {
                 child: Text(
               'Add New Product',
               style: TextStyle(color: theme.onPrimary),
+            )),
+          ),
+        ),
+        const SizedBox(
+          height: 15,
+        ),
+        InkWell(
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => AdminAddNewSection()));
+          },
+          splashColor: theme.onPrimary,
+          focusColor: theme.onPrimary,
+          borderRadius: BorderRadius.circular(10),
+          child: Container(
+            height: 60,
+            width: 200,
+            decoration: BoxDecoration(
+                color: theme.tertiary,
+                borderRadius: BorderRadius.circular(10)),
+            child: Center(
+                child: Text(
+              'Add New Section',
+              style: TextStyle(color: theme.onTertiary),
             )),
           ),
         ),

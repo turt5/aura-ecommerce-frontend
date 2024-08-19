@@ -16,7 +16,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         color: theme.primary,
         fontWeight: FontWeight.bold
       ),),
-      elevation: 2,
+      // elevation: 2,
       // toolbarOpacity: .5,
 
     );
