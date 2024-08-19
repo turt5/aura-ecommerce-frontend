@@ -36,7 +36,7 @@ class UserMessageView extends ConsumerWidget {
           children: [
             Expanded(
               child: Container(
-                color: Colors.white,
+                color: theme.surface,
                 child: StreamBuilder<List<Map<String, dynamic>>>(
                   stream: firestoreService.getMessages(userId, receiverId),
                   builder: (context, snapshot) {

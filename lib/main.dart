@@ -33,7 +33,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: getTheme(),
+      theme: getLightTheme(),
+      darkTheme: getDarkTheme(),
+      themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
       home: FutureBuilder<SharedPreferences>(
         future: SharedPreferences.getInstance(),

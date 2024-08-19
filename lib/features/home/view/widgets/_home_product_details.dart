@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeProductDetails extends ConsumerWidget {
-  HomeProductDetails({super.key});
+  const HomeProductDetails({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,7 +28,7 @@ class HomeProductDetails extends ConsumerWidget {
                           pdProviderWrite.setKey = null;
                           Navigator.of(context).pop();
                         },
-                        icon: Icon(Icons.arrow_back)),
+                        icon: const Icon(Icons.arrow_back)),
                     backgroundColor: theme.surface,
                     expandedHeight: 300,
                     flexibleSpace: FlexibleSpaceBar(
