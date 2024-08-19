@@ -79,7 +79,7 @@ class AdminAddCategory extends ConsumerWidget {
         children: [
           Container(
             padding: EdgeInsets.symmetric(horizontal: 10),
-            color: Colors.white,
+            color: theme.surface,
             height: 80,
             width: double.infinity,
             child: Row(
@@ -160,7 +160,7 @@ class AdminAddCategory extends ConsumerWidget {
           // ),
           Container(
             width: double.infinity,
-              decoration: BoxDecoration(color: Colors.white),
+              decoration: BoxDecoration(color: theme.surface),
               padding: EdgeInsets.symmetric(vertical: 20),
               child: Center(child: Text('Existing Categories:',style: TextStyle(
                 color: theme.onSurface,
@@ -194,7 +194,7 @@ class AdminAddCategory extends ConsumerWidget {
                           margin: const EdgeInsets.only(bottom: 5),
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16, vertical: 12),
-                          color: Colors.white,
+                          color: theme.surface,
                           child: Row(
                             children: [
                               Container(
@@ -232,9 +232,9 @@ class AdminAddCategory extends ConsumerWidget {
                       child: ListTile(
                         title: Text(
                           category.name,
-                          style: TextStyle(color: theme.primary),
+                          style: TextStyle(color: theme.onSurface),
                         ),
-                        tileColor: Colors.white,
+                        tileColor: theme.primary.withOpacity(.1),
                         leading: Icon(
                           Icons.category,
                           color: theme.primary,

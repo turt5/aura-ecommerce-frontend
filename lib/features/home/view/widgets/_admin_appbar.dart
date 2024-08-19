@@ -15,7 +15,7 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget{
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: theme.onPrimary,
+      backgroundColor: theme.surface,
       leading: IconButton(
         onPressed: () {
           scaffoldKey.currentState?.openDrawer();
