@@ -1,8 +1,10 @@
 import 'package:attira/features/splash/view/widgets/_logo.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../main.dart';
 import '../../../../services/user/firebase/_user_service.dart';
+import '../pages/_admin_manage_users.dart';
 
 class AdminHomeDrawer extends StatelessWidget {
   const AdminHomeDrawer({super.key, required this.theme});
@@ -32,7 +34,9 @@ class AdminHomeDrawer extends StatelessWidget {
                 child: ListView(
               children: [
                 ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(context, CupertinoPageRoute(builder: (context)=>AdminManageUsersPage()));
+                  },
                   leading: Icon(
                     Icons.manage_accounts,
                     color: theme.primary,

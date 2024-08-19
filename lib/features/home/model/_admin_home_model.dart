@@ -1,3 +1,4 @@
+import 'package:attira/services/products/firebase/_product_service.dart';
 import 'package:attira/services/user/firebase/_user_service.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -18,12 +19,16 @@ class AdminHomeModel extends ChangeNotifier{
 
   Future<Map<String,dynamic>> getHomeDashboardData()async{
     FirebaseService _fs= FirebaseService();
+    FirebaseProductService _fps= FirebaseProductService();
 
+    String categories = await _fps.getCategoryCount();
     return {
       'users': await _fs.countUsers(),
       'usersTitle': 'Registered Users',
       'products': 332,
-      'productsTitle': 'Products in inventory'
+      'productsTitle': 'Products in inventory',
+      'categoriesTitle': "Available Categories",
+      'categories': categories,
     };
   }
 }

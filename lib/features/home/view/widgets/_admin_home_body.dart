@@ -37,8 +37,8 @@ class AdminHomeBody extends ConsumerWidget {
                                 8.0, // Spacing between items vertically
                             crossAxisSpacing:
                                 8.0, // Spacing between items horizontally
-                            mainAxisExtent: 140),
-                    itemCount: 2, // Number of items in the grid
+                            mainAxisExtent: 100),
+                    itemCount: 3, // Number of items in the grid
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
                         decoration: BoxDecoration(
@@ -63,8 +63,8 @@ class AdminHomeBody extends ConsumerWidget {
                       mainAxisSpacing: 8.0, // Spacing between items vertically
                       crossAxisSpacing:
                           8.0, // Spacing between items horizontally
-                      mainAxisExtent: 140),
-                  itemCount: 2, // Number of items in the grid
+                      mainAxisExtent: 100),
+                  itemCount: 3, // Number of items in the grid
                   itemBuilder: (BuildContext context, int index) {
                     // Replace with your actual data and widget building logic
                     return Container(
@@ -78,10 +78,13 @@ class AdminHomeBody extends ConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "${index==0? data['users']-1:data['products']-1}",
+                                "${index == 0 ? data['users'] - 1 : index ==1? data['products'] - 1: data['categories']}",
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 20,
-                                color: index==0?theme.onPrimary:theme.primary,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                  color: index == 0
+                                      ? theme.onPrimary
+                                      : theme.primary,
                                 ),
                               ),
                             ],
@@ -90,10 +93,12 @@ class AdminHomeBody extends ConsumerWidget {
                             height: 10,
                           ),
                           Text(
-                            "${ index==0? data['usersTitle']:data['productsTitle']}",
-                            style: TextStyle(fontSize: 11,
-                              color: index==0?theme.onPrimary:theme.primary,),
-
+                            "${index == 0 ? data['usersTitle'] : index ==1? data['productsTitle']: data['categoriesTitle']}",
+                            style: TextStyle(
+                              fontSize: 11,
+                              color:
+                                  index == 0 ? theme.onPrimary : theme.primary,
+                            ),
                           ),
                         ],
                       ),
@@ -105,9 +110,9 @@ class AdminHomeBody extends ConsumerWidget {
               }
             },
           ),
-
-          const SizedBox(height: 10,),
-
+          const SizedBox(
+            height: 10,
+          ),
         ],
       ),
     );

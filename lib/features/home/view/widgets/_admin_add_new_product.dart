@@ -15,8 +15,8 @@ class AddNewProduct extends ConsumerWidget {
     final theme = Theme.of(context).colorScheme;
     final productService = FirebaseProductService();
 
-    final readAdminAddProduct = ref.watch(adminAddProductProvider);
-    final writeAdminAddProduct = ref.watch(adminAddProductProvider);
+    final adminAddProduct = ref.watch(adminAddProductProvider);
+    final adminAddProductNotifier = ref.read(adminAddProductProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(
@@ -115,77 +115,13 @@ class AddNewProduct extends ConsumerWidget {
             const SizedBox(
               height: 10,
             ),
-            Container(
-              height: 55,
-              width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: 13),
-              decoration: BoxDecoration(
-                color: theme.primary.withOpacity(.1),
-                borderRadius: BorderRadius.circular(13),
-              ),
-              child: StreamBuilder<List<Section>>(
-                stream: productService.getSections(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CupertinoActivityIndicator(
-                        radius: 10,
-                        color: theme.primary,
-                      ),
-                    );
-                  } else if (snapshot.hasData && snapshot.data != null) {
-                    List<Section> sections = snapshot.data!;
-
-                    Section? _selectedSection =  readAdminAddProduct.selectedSection;
-
-                    // Ensure _selectedSection is in the sections list
-                    if (_selectedSection != null &&
-                        !sections.contains(_selectedSection)) {
-                      _selectedSection = null;
-                    }
-
-                    return DropdownButtonHideUnderline(
-                      child: DropdownButton<Section>(
-                        dropdownColor: theme.primary,
-                        isExpanded: true,
-                        value: _selectedSection,
-                        hint: Text(
-                          _selectedSection != null
-                              ? _selectedSection.name.toString()
-                              : "Select Section",
-                          style: TextStyle(
-                            color: theme.onSurface.withOpacity(.5),
-                          ),
-                        ),
-                        items: sections.map((Section section) {
-                          return DropdownMenuItem<Section>(
-                            value: section,
-                            child: Text(section.name),
-                          );
-                        }).toList(),
-                        onChanged: (Section? newValue) {
-                          writeAdminAddProduct.setSelectedSection=newValue;
-                        },
-                      ),
-                    );
-
-                  } else {
-                    return Center(
-                      child: Icon(
-                        Icons.error,
-                        color: theme.error,
-                      ),
-                    );
-                  }
-                },
-              ),
-            ),
           ],
         ),
       ),
     );
   }
 }
+
 
 class CustomTextField extends StatelessWidget {
   const CustomTextField({
