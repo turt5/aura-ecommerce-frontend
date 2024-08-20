@@ -11,6 +11,27 @@ class FirebaseService {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
 
+  Future<void> disableUser(String uid) async {
+    _firebaseFirestore.collection('users').doc(uid).update({"active": false});
+  }
+
+  Future<void> enableUser(String uid) async {
+    _firebaseFirestore.collection('users').doc(uid).update({"active": true});
+  }
+
+  Stream<bool> isActiveUser(String uid) {
+    return _firebaseFirestore
+        .collection('users')
+        .doc(uid)
+        .snapshots()
+        .map((docSnapshot) {
+      // Handle the case where the document might not have an 'active' field
+      return docSnapshot.data()?['active'] ?? false;
+    });
+  }
+
+
+
   Stream<List<Users>> getAllUsersData() {
     return _firebaseFirestore.collection('users').snapshots().map(
       (snapshot) {
@@ -82,10 +103,10 @@ class FirebaseService {
       // Store the retreived data in local storage
       preferences.setString('userId', user.uid);
       preferences.setString('role', userData!['role']);
-      preferences.setString('imageUrl', userData!['imageUrl']);
-      preferences.setString('phone', userData!['phone']);
-      preferences.setString('email', userData!['email']);
-      preferences.setString('name', userData!['name']);
+      preferences.setString('imageUrl', userData['imageUrl']);
+      preferences.setString('phone', userData['phone']);
+      preferences.setString('email', userData['email']);
+      preferences.setString('name', userData['name']);
 
       return userDoc.data() as Map<String, dynamic>?;
     } on FirebaseAuthException catch (e) {
@@ -131,6 +152,7 @@ class Users {
   String name;
   String phone;
   String imageUrl;
+  bool? activeStatus;
 
   Users(
       {required this.userId,
@@ -138,6 +160,7 @@ class Users {
       required this.role,
       required this.name,
       required this.imageUrl,
+        this.activeStatus,
       required this.phone});
 
   factory Users.toJson(String id, Map<String, dynamic> data) {
@@ -147,6 +170,7 @@ class Users {
         role: data['role'],
         name: data['name'],
         phone: data['phone'],
+        activeStatus: data['active']?? true,
         imageUrl: data['imageUrl']);
   }
 }

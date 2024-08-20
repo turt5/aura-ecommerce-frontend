@@ -4,18 +4,22 @@ import 'package:flutter/services.dart';
 
 class EmailField extends StatelessWidget {
   const EmailField({
-    super.key, required this.emailController,
+    super.key,
+    required this.emailController,
   });
 
   final TextEditingController emailController;
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).colorScheme;
+
     return TextField(
       controller: emailController,
+      style: TextStyle(color: theme.onSurface),
       decoration: InputDecoration(
         filled: true,
-        fillColor: Colors.grey[350],
+        fillColor: theme.primary.withOpacity(.1),
         hintText: 'Email',
         prefixIcon: Icon(
           Icons.email_outlined,
@@ -24,13 +28,11 @@ class EmailField extends StatelessWidget {
         hintStyle: TextStyle(color: Colors.grey[700], fontSize: 14),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(
-              width: 0, color: Colors.transparent),
+          borderSide: const BorderSide(width: 0, color: Colors.transparent),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(
-              width: 0, color: Colors.transparent),
+          borderSide: const BorderSide(width: 0, color: Colors.transparent),
         ),
       ),
     );

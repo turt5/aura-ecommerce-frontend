@@ -16,6 +16,7 @@ class ImageField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).colorScheme;
     final imageFile = ref.watch(accountProvider).imageFile;
 
     return SizedBox(
@@ -25,7 +26,7 @@ class ImageField extends StatelessWidget {
           pickImage(picker, ref);
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.grey[350],
+          backgroundColor: theme.primary.withOpacity(.1),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),

@@ -28,12 +28,12 @@ class AdminManageUsersProfile extends StatelessWidget {
     return Scaffold(
       backgroundColor: theme.surface,
       appBar: AppBar(
-        title: Text('User Profile'),
+        title: const Text('User Profile'),
       ),
       body: SafeArea(
           child: ListView(
-        physics: BouncingScrollPhysics(),
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         children: [
           const SizedBox(
             height: 20,
@@ -65,7 +65,7 @@ class AdminManageUsersProfile extends StatelessWidget {
           ),
           ListTile(
             tileColor: theme.primary.withOpacity(.2),
-            leading: Icon(Icons.person),
+            leading: const Icon(Icons.person),
             title: Text(
               'UID',
               style: TextStyle(
@@ -143,22 +143,7 @@ class AdminManageUsersProfile extends StatelessWidget {
                   color: theme.onSurface,
                   fontWeight: FontWeight.bold),
             ),
-          ),
-          const SizedBox(height: 10,),
-          
-          SizedBox(
-              width: double.infinity,
-              height: 55,
-
-              child: ElevatedButton(onPressed: (){},style: ElevatedButton.styleFrom(
-                backgroundColor: theme.error,
-                foregroundColor: theme.onError,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)
-                )
-              ), child: Text('Delete User',style: TextStyle(
-                fontWeight: FontWeight.bold
-              ),)))
+          )
         ],
       )),
     );

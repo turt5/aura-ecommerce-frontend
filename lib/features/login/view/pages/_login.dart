@@ -24,10 +24,10 @@ class LoginPage extends ConsumerWidget {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark,
+      statusBarColor: theme.surface,
+      statusBarIconBrightness: theme.brightness,
       systemNavigationBarColor: theme.surface,
-      systemNavigationBarIconBrightness: Brightness.dark,
+      systemNavigationBarIconBrightness: theme.brightness,
     ));
 
     return Scaffold(
@@ -165,25 +165,29 @@ class LoginPage extends ConsumerWidget {
     Map<String, dynamic>? userData =
         await firebaseService.loginUser(email, password);
 
-    if (userData != null) {
-      bool? error = userData?.containsKey('error');
-      if (error!) {
-        closeCustomDialog();
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Login, failed ${userData!['error']}')));
-      } else {
-        closeCustomDialog();
-        bool isAdmin = userData!['role'] == "admin";
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => isAdmin ? AdminHomePage() : HomePage()));
-      }
-    } else {
-      bool? error = userData?.containsKey('error');
+    bool isActive = userData!['active'] ?? true;
 
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Login failed!')));
+    bool? error = userData.containsKey('error');
+
+    if (error) {
+      closeCustomDialog();
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Login, failed ${userData['error']}')));
+      return;
+    } else if (!isActive) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Login, failed, this account has been suspended by admin!')));
+
+      firebaseService.loginUser(email, password);
+      return;
+    } else {
+      closeCustomDialog();
+      bool isAdmin = userData['role'] == "admin";
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => isAdmin ? AdminHomePage() : HomePage()));
     }
   }
 }

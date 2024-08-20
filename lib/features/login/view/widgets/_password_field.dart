@@ -8,12 +8,18 @@ class PasswordField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final theme = Theme.of(context).colorScheme;
+
     return TextField(
       controller: passwordController,
       obscureText: true,
+      style: TextStyle(
+        color: theme.onSurface
+      ),
       decoration: InputDecoration(
         filled: true,
-        fillColor: Colors.grey[350],
+        fillColor: theme.primary.withOpacity(.1),
         hintText: 'Password',
         prefixIcon: Icon(
           Icons.lock_outline,
