@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '_admin_product_demo_display.dart';
+
 class AddNewProduct extends ConsumerStatefulWidget {
   const AddNewProduct({super.key});
 
@@ -204,65 +206,84 @@ class _AddNewProductState extends ConsumerState<AddNewProduct> {
                 primaryColor: theme.primary,
                 textColor: theme.onPrimary,
                 onPressed: () async {
-                  if (_nameController.text.isEmpty ||
-                      _priceController.text.isEmpty ||
-                      _descriptionController.text.isEmpty ||
-                      _categoryController.text.isEmpty ||
-                      _descriptionController.text.isEmpty ||
-                      _sizesController.text.isEmpty ||
-                      _tagsController.text.isEmpty ||
-                      _imageFiles.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                          content:
-                              Text('Fill all the data to add this product!')),
-                    );
-                    return;
-                  }
+                  // if (_nameController.text.isEmpty ||
+                  //     _priceController.text.isEmpty ||
+                  //     _descriptionController.text.isEmpty ||
+                  //     _categoryController.text.isEmpty ||
+                  //     _descriptionController.text.isEmpty ||
+                  //     _sizesController.text.isEmpty ||
+                  //     _tagsController.text.isEmpty ||
+                  //     _imageFiles.isEmpty) {
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     SnackBar(
+                  //         content:
+                  //             Text('Fill all the data to add this product!')),
+                  //   );
+                  //   return;
+                  // }
 
-                  showCustomDialog(context);
-
-                  final productService = FirebaseProductService();
-
-                  // Create a product object
-                  final productData = {
-                    'name': _nameController.text,
-                    'description': _descriptionController.text,
-                    'category': _categoryController.text,
-                    'price': double.tryParse(_priceController.text) ?? 0.0,
-                    'sizes': _sizesController.text
-                        .split(',')
-                        .map((size) => size.trim())
-                        .toList(),
-                    'colors': _colorsController.text
-                        .split(',')
-                        .map((color) => {
-                              'colorName': color.split(':')[0].trim(),
-                              'colorCode': color.split(':')[1].trim()
-                            })
-                        .toList(),
-                    'imageUrls': _imageFiles.isNotEmpty
-                        ? await Future.wait(_imageFiles
-                            .map((file) => productService.uploadImage(file)))
-                        : [],
-                  };
-
-                  // await productService.addProduct(productData);
-
-                  // Clear form
-                  _nameController.clear();
-                  _priceController.clear();
-                  _descriptionController.clear();
-                  _categoryController.clear();
-                  _sizesController.clear();
-                  _colorsController.clear();
-                  setState(() {
-                    _imageFiles.clear(); // Clear the image list
-                  });
-                  closeCustomDialog();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Product added successfully')),
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProductDisplay(
+                        name: 'Sample Product',
+                        description: 'This is a sample product description.',
+                        price: 29.99,
+                        category: 'Category A',
+                        sizes: ['S', 'M', 'L'],
+                        colors: [
+                          {'colorName': 'Red', 'colorCode': '0xFFFF0000'},
+                          {'colorName': 'Blue', 'colorCode': '0xFF0000FF'},
+                        ],
+                        imageFiles: _imageFiles,
+                      ),
+                    ),
                   );
+
+
+                  // showCustomDialog(context);
+                  //
+                  // final productService = FirebaseProductService();
+                  //
+                  // // Create a product object
+                  // final productData = {
+                  //   'name': _nameController.text,
+                  //   'description': _descriptionController.text,
+                  //   'category': _categoryController.text,
+                  //   'price': double.tryParse(_priceController.text) ?? 0.0,
+                  //   'sizes': _sizesController.text
+                  //       .split(',')
+                  //       .map((size) => size.trim())
+                  //       .toList(),
+                  //   'colors': _colorsController.text
+                  //       .split(',')
+                  //       .map((color) => {
+                  //             'colorName': color.split(':')[0].trim(),
+                  //             'colorCode': color.split(':')[1].trim()
+                  //           })
+                  //       .toList(),
+                  //   'imageUrls': _imageFiles.isNotEmpty
+                  //       ? await Future.wait(_imageFiles
+                  //           .map((file) => productService.uploadImage(file)))
+                  //       : [],
+                  // };
+                  //
+                  // // await productService.addProduct(productData);
+                  //
+                  // // Clear form
+                  // _nameController.clear();
+                  // _priceController.clear();
+                  // _descriptionController.clear();
+                  // _categoryController.clear();
+                  // _sizesController.clear();
+                  // _colorsController.clear();
+                  // setState(() {
+                  //   _imageFiles.clear(); // Clear the image list
+                  // });
+                  // closeCustomDialog();
+                  // ScaffoldMessenger.of(context).showSnackBar(
+                  //   SnackBar(content: Text('Product added successfully')),
+                  // );
                 },
                 textBold: true,
                 textSize: 16,

@@ -175,6 +175,7 @@ class LoginPage extends ConsumerWidget {
           SnackBar(content: Text('Login, failed ${userData['error']}')));
       return;
     } else if (!isActive) {
+      closeCustomDialog();
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text(
               'Login, failed, this account has been suspended by admin!')));
