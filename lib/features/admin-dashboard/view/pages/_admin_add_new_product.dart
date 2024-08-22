@@ -105,14 +105,21 @@ class _AddNewProductState extends ConsumerState<AddNewProduct> {
                                           top: 10,
                                           right: 10,
                                           child: Container(
+                                            height:35,
+                                            width:35,
                                             decoration: BoxDecoration(
-                                                color: theme.surface,
+                                                color: theme.error,
                                                 shape: BoxShape.circle),
                                             child: IconButton(
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  setState(() {
+                                                    _imageFiles.remove(file);
+                                                  });
+                                                },
                                                 icon: Icon(
                                                   Icons.close,
-                                                  color: theme.error,
+                                                  color: theme.onError,
+                                                  size: 18,
                                                 )),
                                           ))
                                     ],
