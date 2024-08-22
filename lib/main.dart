@@ -1,5 +1,5 @@
 import 'package:attira/core/theme/_theme.dart';
-import 'package:attira/features/home/view/pages/_homepage.dart';
+import 'package:attira/features/user-dashboard/view/pages/_homepage.dart';
 import 'package:attira/features/splash/view/pages/_splash.dart';
 import 'package:attira/services/message/provider/_firestore_message_provider.dart';
 import 'package:attira/services/notification/firebase/_firebase_cloud_notification.dart';
@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'features/home/view/pages/_admin_home.dart';
+import 'features/admin-dashboard/view/pages/_admin_home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
