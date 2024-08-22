@@ -11,6 +11,7 @@ class ProductDisplay extends StatelessWidget {
   final List<String> sizes;
   final List<Map<String, String>> colors;
   final List<XFile> imageFiles;
+  final int quantity;
 
   const ProductDisplay({
     super.key,
@@ -20,7 +21,7 @@ class ProductDisplay extends StatelessWidget {
     required this.category,
     required this.sizes,
     required this.colors,
-    required this.imageFiles,
+    required this.imageFiles, required this.quantity,
   });
 
   @override

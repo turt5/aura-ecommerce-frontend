@@ -22,6 +22,7 @@ class _AddNewProductState extends ConsumerState<AddNewProduct> {
   final TextEditingController _sizesController = TextEditingController();
   final TextEditingController _colorsController = TextEditingController();
   final TextEditingController _tagsController = TextEditingController();
+  final TextEditingController _quantityController = TextEditingController();
   final List<XFile> _imageFiles = []; // Change to List
 
   final ImagePicker _picker = ImagePicker();
@@ -105,8 +106,8 @@ class _AddNewProductState extends ConsumerState<AddNewProduct> {
                                           top: 10,
                                           right: 10,
                                           child: Container(
-                                            height:35,
-                                            width:35,
+                                            height: 35,
+                                            width: 35,
                                             decoration: BoxDecoration(
                                                 color: theme.error,
                                                 shape: BoxShape.circle),
@@ -133,6 +134,13 @@ class _AddNewProductState extends ConsumerState<AddNewProduct> {
                     CustomTextField(
                       controller: _nameController,
                       hint: 'Product Name',
+                      height: 55,
+                      width: double.infinity,
+                    ),
+                    const SizedBox(height: 10),
+                    CustomTextField(
+                      controller: _quantityController,
+                      hint: 'Quantity',
                       height: 55,
                       width: double.infinity,
                     ),
@@ -232,6 +240,7 @@ class _AddNewProductState extends ConsumerState<AddNewProduct> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => ProductDisplay(
+                        quantity: 20,
                         name: 'Sample Product',
                         description: 'This is a sample product description.',
                         price: 29.99,
@@ -245,7 +254,6 @@ class _AddNewProductState extends ConsumerState<AddNewProduct> {
                       ),
                     ),
                   );
-
 
                   // showCustomDialog(context);
                   //
