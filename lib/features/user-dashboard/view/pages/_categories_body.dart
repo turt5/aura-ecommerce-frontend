@@ -1,6 +1,9 @@
+import 'package:attira/features/user-dashboard/view/pages/_search_categories.dart';
 import 'package:attira/features/user-dashboard/view/widgets/_custom_app_bar.dart';
 import 'package:attira/services/products/firebase/_product_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -12,6 +15,15 @@ class CategoriesBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context).colorScheme;
+
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: theme.surface,
+      statusBarIconBrightness: theme.brightness,
+      systemNavigationBarColor: theme.surface,
+      systemNavigationBarIconBrightness: theme.brightness
+    ));
+
+
     final FirebaseProductService productService = FirebaseProductService();
 
     return Scaffold(
@@ -26,7 +38,9 @@ class CategoriesBody extends ConsumerWidget {
             ),
             HomeBodySearch(
               theme: theme,
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchCategories()));
+              },
             ),
             const SizedBox(
               height: 20,

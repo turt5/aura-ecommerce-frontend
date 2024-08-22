@@ -59,6 +59,27 @@ class FirebaseProductService {
     return products;
   }
 
+  Stream<List<Product>> getProductsByCategory(String categoryId) {
+    return _firestoreDB
+        .collection(_productsCollectionPath)
+        .where('categoryId', isEqualTo: categoryId)
+        .snapshots()
+        .map((snapshot) {
+      final productList = snapshot.docs.map((doc) {
+        final data = doc.data();
+        return Product.fromFirestore(doc.id, data);
+      }).toList();
+
+      // Print each product's details for debugging
+      for (var product in productList) {
+        print('Product ID: ${product.id}, Name: ${product.name}, Price: ${product.price}');
+      }
+
+      return productList;
+    });
+  }
+
+
 
   // Method to update a product
   Future<void> updateProduct(
