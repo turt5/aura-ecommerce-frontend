@@ -78,7 +78,7 @@ class AdminHomeBody extends ConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "${index == 0 ? data['users'] - 1 : index ==1? data['products'] - 1: data['categories']}",
+                                "${index == 0 ? data['users'] - 1 : index == 1 ? data['products'] : data['categories']}",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20,
@@ -93,7 +93,7 @@ class AdminHomeBody extends ConsumerWidget {
                             height: 10,
                           ),
                           Text(
-                            "${index == 0 ? data['usersTitle'] : index ==1? data['productsTitle']: data['categoriesTitle']}",
+                            "${index == 0 ? data['usersTitle'] : index == 1 ? data['productsTitle'] : data['categoriesTitle']}",
                             style: TextStyle(
                               fontSize: 11,
                               color:

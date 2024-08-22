@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,7 +11,7 @@ class ProductDisplay extends StatelessWidget {
   final String category;
   final List<String> sizes;
   final List<Map<String, String>> colors;
-  final List<XFile> imageFiles;
+  final List<String?> imageUrls;
   final int quantity;
 
   const ProductDisplay({
@@ -21,7 +22,7 @@ class ProductDisplay extends StatelessWidget {
     required this.category,
     required this.sizes,
     required this.colors,
-    required this.imageFiles, required this.quantity,
+    required this.imageUrls, required this.quantity,
   });
 
   @override
@@ -52,15 +53,18 @@ class ProductDisplay extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 20,),
-            if (imageFiles.isNotEmpty)
+            if (imageUrls.isNotEmpty)
               SizedBox(
                 height: 250,
                 child: PageView.builder(
-                  itemCount: imageFiles.length,
+                  itemCount: imageUrls.length,
                   itemBuilder: (context, index) {
-                    return Image.file(
-                      File(imageFiles[index].path),
-                      fit: BoxFit.cover,
+                    return Container(
+                      color: Colors.white,
+                      child: CachedNetworkImage(
+                        imageUrl: imageUrls[index]!,
+                        fit: BoxFit.contain,
+                      ),
                     );
                   },
                 ),

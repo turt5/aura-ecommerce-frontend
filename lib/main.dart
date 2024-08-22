@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'features/admin-dashboard/view/pages/_admin_home.dart';
+import 'features/admin-dashboard/view/widgets/_admin_home_bridge.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,3 +1,4 @@
+import 'package:attira/features/admin-dashboard/view/pages/_admin_manage_products.dart';
 import 'package:attira/features/splash/view/widgets/_logo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +47,9 @@ class AdminHomeDrawer extends StatelessWidget {
                     style: TextStyle(color: theme.primary),
                   ),
                 ),ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(context, CupertinoPageRoute(builder: (context)=>AdminManageProducts()));
+                  },
                   leading: Icon(
                     Icons.settings,
                     color: theme.primary,

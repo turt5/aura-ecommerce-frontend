@@ -1,4 +1,6 @@
 import 'package:attira/features/admin-dashboard/controller/_admin_home_provider.dart';
+import 'package:attira/features/admin-dashboard/view/pages/_admin_add_product.dart';
+import 'package:attira/features/admin-dashboard/view/pages/_admin_orders.dart';
 import 'package:attira/features/user-dashboard/controller/_user_home_model_provider.dart';
 import 'package:attira/features/admin-dashboard/view/widgets/_admin_custom_bottom_navbar.dart';
 import 'package:attira/features/admin-dashboard/view/pages/_admin_home_body.dart';
@@ -11,10 +13,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../widgets/_admin_appbar.dart';
-import '../widgets/_admin_home_drawer.dart';
-import '_admin_add_product.dart';
-import '_admin_orders.dart';
+import '_admin_appbar.dart';
+import '_admin_home_drawer.dart';
 
 class AdminHomePage extends ConsumerWidget {
   AdminHomePage({super.key});

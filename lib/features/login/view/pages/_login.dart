@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:attira/features/admin-dashboard/view/pages/_admin_home.dart';
+import 'package:attira/features/admin-dashboard/view/widgets/_admin_home_bridge.dart';
 import 'package:attira/features/user-dashboard/view/pages/_homepage.dart';
 import 'package:attira/features/register/view/widgets/_customDialog.dart';
 import 'package:attira/features/splash/view/widgets/_logo.dart';

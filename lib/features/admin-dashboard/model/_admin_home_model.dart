@@ -22,10 +22,11 @@ class AdminHomeModel extends ChangeNotifier{
     FirebaseProductService _fps= FirebaseProductService();
 
     String categories = await _fps.getCategoryCount();
+    String products = await _fps.getProductCount();
     return {
       'users': await _fs.countUsers(),
       'usersTitle': 'Registered Users',
-      'products': 332,
+      'products': products,
       'productsTitle': 'Products in inventory',
       'categoriesTitle': "Available Categories",
       'categories': categories,
