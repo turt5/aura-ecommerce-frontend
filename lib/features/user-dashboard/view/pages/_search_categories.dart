@@ -120,7 +120,7 @@ class _SearchCategoriesState extends State<SearchCategories> {
                   );
                 },
               )
-                  : Center(
+                  : const Center(
                 child: Text('No categories found'),
               ),
             ),

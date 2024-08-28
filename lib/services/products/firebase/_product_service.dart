@@ -224,7 +224,7 @@ class Product {
   final double price;
   final String quantity;
   final List<String> sizes;
-  final List<ColorData> colors;
+  final List<ColorData> colors; // Keeping it as a list of ColorData objects
   final List<String?> imageUrls;
   final List<String> tags;
 
@@ -254,7 +254,7 @@ class Product {
         quantity: data['quantity'] ?? '',
         sizes: List<String>.from(data['sizes'] ?? []),
         colors: (data['colors'] as List)
-            .map((color) => ColorData.fromFirestore(color))
+            .map((color) => ColorData.fromFirestore(color as Map<String, dynamic>))
             .toList(),
         imageUrls: List<String>.from(data['imageUrls'] ?? []),
         tags: List<String>.from(data['tags'] ?? []),
@@ -265,7 +265,6 @@ class Product {
     }
   }
 }
-
 class ColorData {
   final String colorCode;
   final String colorName;

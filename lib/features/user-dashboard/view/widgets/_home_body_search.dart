@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 class HomeBodySearch extends StatelessWidget {
   const HomeBodySearch({
     super.key,
-    required this.theme, required this.onTap,
+    required this.theme, required this.onTap, required this.label,
   });
+
+  final String label;
 
   final ColorScheme theme;
   final VoidCallback onTap;
@@ -31,7 +33,7 @@ class HomeBodySearch extends StatelessWidget {
               const SizedBox(
                 width: 10,
               ),
-              const Text('Search For Products')
+              Text(label)
             ],
           ),
         ),

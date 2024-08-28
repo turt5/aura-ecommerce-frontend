@@ -374,7 +374,7 @@ class _AddNewProductState extends ConsumerState<AddNewProduct> {
                          price: double.parse(productData['price'].toString()),
                          category: productData['categoryName'].toString(),
                          sizes: productData['sizes'] as List<String>,
-                         colors: productData['colors']  as List<Map<String,String>>,
+                         colors: productData['colors'] as List<ColorData>,
                          imageUrls: productData['imageUrls'] as List<String?>,
                        ),
                      ),

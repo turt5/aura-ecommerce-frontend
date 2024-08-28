@@ -121,6 +121,7 @@ class HomeBody extends ConsumerWidget {
                   const SizedBox(height: 10),
                   HomeBodySearch(
                     theme: theme,
+                    label: 'Search For Products',
                     onTap: () {},
                   ),
                   const SizedBox(height: 13),

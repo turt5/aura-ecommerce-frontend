@@ -1,3 +1,4 @@
+import 'package:attira/features/user-dashboard/view/pages/_products_by_category.dart';
 import 'package:attira/features/user-dashboard/view/pages/_search_categories.dart';
 import 'package:attira/features/user-dashboard/view/widgets/_custom_app_bar.dart';
 import 'package:attira/services/products/firebase/_product_service.dart';
@@ -38,6 +39,7 @@ class CategoriesBody extends ConsumerWidget {
             ),
             HomeBodySearch(
               theme: theme,
+              label: "Search for categories",
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchCategories()));
               },
@@ -74,42 +76,50 @@ class CategoriesBody extends ConsumerWidget {
                     crossAxisSpacing: 10,
                   ),
                   itemBuilder: (context, index) {
-                    return Container(
-                      height: 130, // Fixed height
-                      decoration: BoxDecoration(
-                        color: theme.primary.withOpacity(.15),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            left: 5,
-                            top: 0,
-                            child: Text(
-                              '${index + 1}',
-                              style: GoogleFonts.rowdies(
-                                color: theme.primary.withOpacity(.2),
-                                fontSize: 50,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(10),
+                    return InkWell(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductsByCategoryPage(
+                          categoryName: data[index].name,
+                          categoryId: data[index].id,
+                        )));
+                      },
+                      child: Container(
+                        height: 130, // Fixed height
+                        decoration: BoxDecoration(
+                          color: theme.primary.withOpacity(.15),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              left: 5,
+                              top: 0,
                               child: Text(
-                                data[index].name,
-                                textAlign: TextAlign.center,
-                                maxLines: 2,
-                                style: TextStyle(
-                                  color: theme.primary,
-                                  fontSize: 12,
+                                '${index + 1}',
+                                style: GoogleFonts.rowdies(
+                                  color: theme.primary.withOpacity(.2),
+                                  fontSize: 50,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Text(
+                                  data[index].name,
+                                  textAlign: TextAlign.center,
+                                  maxLines: 2,
+                                  style: TextStyle(
+                                    color: theme.primary,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   },

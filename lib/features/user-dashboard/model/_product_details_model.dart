@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class ProductDetailsModel extends ChangeNotifier{
+class ProductDetailsModel extends ChangeNotifier {
   final Map<String, String> sizes = {
     "S": "499",
     "M": "499",
@@ -9,18 +9,22 @@ class ProductDetailsModel extends ChangeNotifier{
     "XXL": "650"
   };
 
-  Map<String,String> get getSizes=> sizes;
+  Map<String, String> get getSizes => sizes;
 
+  // Map<String, String> getSizes() {
+  //   return sizes;
+  // }
+
+  // Map<String, String> getSizes() => sizes;
 
   String? _selectedKey;
 
-  String? get getSelectedKey=>_selectedKey;
+  String? get getSelectedKey => _selectedKey;
 
-  set setKey(value){
-    _selectedKey=value;
+  set setKey(value) {
+    _selectedKey = value;
     notifyListeners();
   }
-
 
   int _selectedQuantity = 1;
 
