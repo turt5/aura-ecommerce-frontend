@@ -89,6 +89,7 @@ class _ProductsByCategoryPageState
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 ProductDisplay(
+                                                  productId: currentProduct.id,
                                                     name: currentProduct.name,
                                                     description: currentProduct
                                                         .description,

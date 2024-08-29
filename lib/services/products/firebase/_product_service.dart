@@ -59,6 +59,7 @@ class FirebaseProductService {
     return products;
   }
 
+
   Stream<List<Product>> getProductsByCategory(String categoryId) {
     return _firestoreDB
         .collection(_productsCollectionPath)

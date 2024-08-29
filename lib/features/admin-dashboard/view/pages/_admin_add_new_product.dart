@@ -344,6 +344,7 @@ class _AddNewProductState extends ConsumerState<AddNewProduct> {
                         ? await Future.wait(_imageFiles
                             .map((file) => productService.uploadImage(file)))
                         : [],
+                    'addedAt': FieldValue.serverTimestamp(),
                   };
 
                   bool response = await productService.addProduct(productData);
@@ -364,21 +365,21 @@ class _AddNewProductState extends ConsumerState<AddNewProduct> {
                      SnackBar(content: Text('Product added successfully')),
                    );
 
-                   Navigator.pushReplacement(
-                     context,
-                     MaterialPageRoute(
-                       builder: (context) => ProductDisplay(
-                         quantity: 20,
-                         name: productData['name'].toString(),
-                         description: productData['description'].toString(),
-                         price: double.parse(productData['price'].toString()),
-                         category: productData['categoryName'].toString(),
-                         sizes: productData['sizes'] as List<String>,
-                         colors: productData['colors'] as List<ColorData>,
-                         imageUrls: productData['imageUrls'] as List<String?>,
-                       ),
-                     ),
-                   );
+                   // Navigator.pushReplacement(
+                   //   context,
+                   //   MaterialPageRoute(
+                   //     builder: (context) => ProductDisplay(
+                   //       quantity: 20,
+                   //       name: productData['name'].toString(),
+                   //       description: productData['description'].toString(),
+                   //       price: double.parse(productData['price'].toString()),
+                   //       category: productData['categoryName'].toString(),
+                   //       sizes: productData['sizes'] as List<String>,
+                   //       colors: productData['colors'] as List<ColorData>,
+                   //       imageUrls: productData['imageUrls'] as List<String?>,
+                   //     ),
+                   //   ),
+                   // );
                  }else{
                    ScaffoldMessenger.of(context).showSnackBar(
                      SnackBar(content: Text('Something Went Wrong!')),
